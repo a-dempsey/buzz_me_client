@@ -19,7 +19,6 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: SafeArea(
         child: Container(
           height: double.infinity,
@@ -66,15 +65,14 @@ class LoginScreen extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.grey[800],
                   fontSize: 16,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Roboto-Regular',
 
                 ),
               ),
 
               const SizedBox(height: 40),
               // username textfield
-              MyTextField(
+              EditText(
                 controller: usernameController,
                 hintText: 'Username',
                 obscureText: false,
@@ -83,7 +81,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 10),
 
               // password textfield
-              MyTextField(
+              EditText(
                 controller: passwordController,
                 hintText: 'Password',
                 obscureText: true,
