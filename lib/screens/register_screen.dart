@@ -66,21 +66,21 @@ class RegisterScreen extends StatelessWidget {
                   hintText: 'Email',
                   obscureText: false,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 // username textfield
                 EditText(
                   controller: passwordController,
                   hintText: 'Password',
                   obscureText: false,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 // username textfield
                 EditText(
                   controller: confirmPasswordController,
                   hintText: 'Confirm Password',
                   obscureText: false,
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 35),
 
                 // sign in button
                 RegisterButton(
