@@ -37,11 +37,34 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: Stack(
+          alignment: Alignment.center,
+          clipBehavior: Clip.none,
+          children: [
+            _widgetOptions.elementAt(_selectedIndex),
+            Positioned(
+              top: 760,
+              left: 80.00 * _selectedIndex,
+              child: AnimatedOpacity(
+                duration: const Duration(milliseconds: 600),
+                opacity: _selectedIndex == _selectedIndex ? 1 : 0,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  height: 5,
+                  width: 110,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
-        type: BottomNavigationBarType.fixed,
+        backgroundColor: _selectedIndex == 2 ? Colors.black : Colors.transparent,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
@@ -66,6 +89,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey[500],
         onTap: _onItemTapped,
       ),
     );
