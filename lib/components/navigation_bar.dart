@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:buzz_me/screens/home_screen.dart';
+import 'package:buzz_me/screens/map_screen.dart';
+import 'package:buzz_me/screens/search_screen.dart';
+import 'package:buzz_me/screens/settings_screen.dart';
+import 'package:buzz_me/screens/timetable_screen.dart';
 
 class NavigationBar extends StatelessWidget {
   const NavigationBar({Key? key}) : super(key: key);
@@ -18,50 +23,38 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 2;
+  late PageController _pageController;
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(''),
-    Text(''),
-    Text(''),
-    Text(''),
-    Text(''),
+  static const List<Widget> _routes = [
+    SettingsScreen(),
+    MapScreen(),
+    HomeScreen(),
+    TimetableScreen(),
+    SearchScreen(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _pageController.jumpToPage(index);
     });
   }
 
   @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _selectedIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+  
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          alignment: Alignment.center,
-          clipBehavior: Clip.none,
-          children: [
-            _widgetOptions.elementAt(_selectedIndex),
-            Positioned(
-              top: 760,
-              left: 80.00 * _selectedIndex,
-              child: AnimatedOpacity(
-                duration: const Duration(milliseconds: 600),
-                opacity: _selectedIndex == _selectedIndex ? 1 : 0,
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  height: 5,
-                  width: 110,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
         backgroundColor: _selectedIndex == 2 ? Colors.black : Colors.transparent,
@@ -91,6 +84,37 @@ class _BottomNavBarState extends State<BottomNavBar> {
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.grey[500],
         onTap: _onItemTapped,
+      ),
+      body: Stack(
+        children: [
+          Positioned(
+            child: PageView(
+              controller: _pageController,
+              onPageChanged: _onItemTapped,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                _routes[_selectedIndex],
+              ],
+            ),
+          ),
+          Positioned(
+            top: 760,
+            left: 80.00 * _selectedIndex,
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 600),
+              opacity: _selectedIndex == _selectedIndex ? 1 : 0,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                height: 5,
+                width: 110,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

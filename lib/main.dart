@@ -1,7 +1,8 @@
+import 'package:buzz_me/screens/nav_screen.dart';
 import 'package:buzz_me/screens/register_screen.dart';
+import 'package:buzz_me/screens/search_screen.dart';
 import 'package:flutter/material.dart';
-import 'screens/login_screen.dart';
-import 'screens/home_screen.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -12,11 +13,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       //home: LoginScreen(),
       //home: RegisterScreen(),
-      home: HomeScreen(),
+      home: NavScreen(),
     );
   }
 }
