@@ -7,11 +7,11 @@ import '../components/google_sign_in.dart';
 import '../components/log_in_button.dart';
 
 class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
 
   // text editing controllers
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  static final usernameController = TextEditingController();
+  static final passwordController = TextEditingController();
 
   // sign user in method
   void signIn() {}

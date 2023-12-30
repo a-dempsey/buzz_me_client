@@ -43,7 +43,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: _selectedIndex);
+    _pageController = PageController();
   }
 
   @override
@@ -51,13 +51,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
     _pageController.dispose();
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
-        backgroundColor: _selectedIndex == 2 ? Colors.black : Colors.transparent,
+        backgroundColor: _selectedIndex == 2 ? Colors.cyan[800] : Colors.transparent,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
@@ -108,7 +108,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 height: 5,
                 width: 110,
                 decoration: BoxDecoration(
-                  color: Colors.black,
+                  color: Colors.cyan[800],
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
