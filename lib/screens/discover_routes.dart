@@ -11,7 +11,7 @@ class DiscoverRoutes extends StatelessWidget {
           child: Center(
             child: Column(
               children: [
-                const SizedBox(height: 40),
+                const SizedBox(height: 35),
                 // heading
                 Text(
                   'Hi,\nWhere are you going today?',
