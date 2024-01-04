@@ -40,23 +40,19 @@ class HomeMenuState extends State<HomeMenu> with SingleTickerProviderStateMixin 
     return DefaultTabController(
       length: _menutabs.length,
       child: Scaffold(
-
         appBar: AppBar(
           elevation: 0,
           centerTitle: false,
-
           titleSpacing: 75,
           title: Text(currentTitle, style: const TextStyle(fontFamily: 'Roboto-Medium', fontSize: 26)),
           bottom: TabBar(
-
             isScrollable: true,
-
             labelPadding: const EdgeInsets.symmetric(horizontal: 25.0),
             indicatorColor: Colors.cyan[800],
             labelColor: Colors.cyan[800],
             unselectedLabelColor: Colors.grey[900],
-            labelStyle: const TextStyle(fontSize: 16,fontFamily: 'Roboto-Medium'),  //For Selected tab
-            unselectedLabelStyle: const TextStyle(fontSize: 16,fontFamily: 'Roboto-Medium'), //For Un-selected Tabs
+            labelStyle: const TextStyle(fontSize: 16,fontFamily: 'Roboto-Medium'),
+            unselectedLabelStyle: const TextStyle(fontSize: 16,fontFamily: 'Roboto-Medium'),
             controller: _controller,
             tabs: const [
               Tab(text: 'Discover'),
@@ -65,8 +61,10 @@ class HomeMenuState extends State<HomeMenu> with SingleTickerProviderStateMixin 
             ],
           ),
         ),
-
-
+        body: TabBarView(
+          controller: _controller,
+          children: _menutabs,
+        ),
       ),
     );
   }
