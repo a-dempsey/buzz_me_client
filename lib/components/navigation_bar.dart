@@ -57,7 +57,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
-        backgroundColor: _selectedIndex == 2 ? Colors.cyan[800] : Colors.transparent,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
@@ -98,7 +97,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ),
           ),
           Positioned(
-            top: 760,
+            top: 766,
             left: 80.00 * _selectedIndex,
             child: AnimatedOpacity(
               duration: const Duration(milliseconds: 600),
