@@ -1,3 +1,4 @@
+import 'package:buzz_me/components/search_bar.dart';
 import 'package:flutter/material.dart';
 
 class DiscoverRoutes extends StatelessWidget {
@@ -7,24 +8,25 @@ class DiscoverRoutes extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-
-
-
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 140),
+                const SizedBox(height: 40),
                 // heading
                 Text(
-                  'Buzz Me!',
+                  'Hi,\nWhere are you going today?',
                   style: TextStyle(
                     color: Colors.grey[800],
-                    fontSize: 40,
-                    fontFamily: 'Limelight',
-                    fontWeight: FontWeight.w500,
+                    fontSize: 24,
+                    fontFamily: 'Roboto-Medium',
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
+                const SizedBox(height: 25),
+                const Expanded(
+                  child: LocationSearchBar(),
+                ),
+
               ],
             ),
           ),
