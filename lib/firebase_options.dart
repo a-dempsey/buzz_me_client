@@ -9,9 +9,11 @@ import 'firebase_options.dart';
 
 // ...
 
-await Firebase.initializeApp(
+/*await Firebase.initializeApp(
 options: DefaultFirebaseOptions.currentPlatform,
-);
+);*/
+
+
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -52,7 +54,7 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
+   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyA_9f1oDgbEQXCh2FsHOY4GjMdaLIqf_3g',
     appId: '1:985610033427:web:9e397c7479b30e6417e2e6',
     messagingSenderId: '985610033427',
