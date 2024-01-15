@@ -6,9 +6,10 @@ import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';
 
-void main() async {
+void main()  {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
+  Firebase.initializeApp(
+    name: 'buzz-me',
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
