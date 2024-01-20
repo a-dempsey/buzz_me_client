@@ -3,8 +3,15 @@ import 'package:buzz_me/components/menu_bar.dart';
 
 import '../components/icon.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool isPressed = false;
+  bool isPressedRoute = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +59,63 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
             ),
+            const SizedBox(height: 20),
+            const Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 14),
+                  child: Text(
+                    'Categories',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Roboto-Medium',
+                      fontSize: 22,
+                      fontWeight: FontWeight.w600,
+                    ),),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 13, right: 5),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        isPressed = !isPressed;
+                      },);
+                    },
+                    style: ButtonStyle(
+                      minimumSize: MaterialStateProperty.all(const Size(14, 30)),
+                      backgroundColor: isPressed ? MaterialStateProperty.all<Color>(Colors.pink.shade300) : MaterialStateProperty.all<Color>(Colors.pink.shade100),
+                      foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                    ),
+                    child: const Text(
+                       'Notifications'
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      isPressedRoute = !isPressedRoute;
+                    },);
+                  },
+                  style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all(const Size(14,30)),
+                    backgroundColor: isPressedRoute ? MaterialStateProperty.all<Color>(Colors.green.shade300) : MaterialStateProperty.all<Color>(Colors.green.shade100),
+                    foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                  ),
+                  child: const Text(
+                      'Routes'
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
     );
   }
 }
+//display settings
