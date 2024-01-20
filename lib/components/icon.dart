@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 
 class IconImage extends StatelessWidget {
   final String imagePath;
+  final double width;
+  final double height;
   const IconImage({
     super.key,
     required this.imagePath,
+    required this.width,
+    required this.height,
   });
 
   @override
@@ -18,7 +22,8 @@ class IconImage extends StatelessWidget {
       ),
       child: Image.asset(
         imagePath,
-        height: 80,
+        height: 70,
+        width: 60,
       ),
     );
   }
