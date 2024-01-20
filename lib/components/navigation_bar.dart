@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:buzz_me/screens/home_screen.dart';
 import 'package:buzz_me/screens/map_screen.dart';
-import 'package:buzz_me/screens/search_screen.dart';
-import 'package:buzz_me/screens/settings_screen.dart';
 import 'package:buzz_me/screens/timetable_screen.dart';
 
 class NavigationBar extends StatelessWidget {
-  const NavigationBar({Key? key}) : super(key: key);
+  const NavigationBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,22 +13,20 @@ class NavigationBar extends StatelessWidget {
 }
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({Key? key}) : super(key: key);
+  const BottomNavBar({super.key});
 
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 1;
   late PageController _pageController;
 
   static const List<Widget> _routes = [
-    SettingsScreen(),
     MapScreen(),
     HomeScreen(),
     TimetableScreen(),
-    SearchScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -57,30 +53,22 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
-        items: const <BottomNavigationBarItem>[
+        items:  <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon:  Icon(Icons.fmd_good_outlined, size: _selectedIndex == 0 ? 26 : 22),
+            label: _selectedIndex == 0 ? 'Map' : '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.fmd_good_outlined),
-            label: 'Map',
+            icon:  Icon(Icons.home, size: _selectedIndex == 1 ? 26 : 22),
+            label: _selectedIndex == 1 ? 'Home' : '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.article),
-            label: 'Timetable',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon:  Icon(Icons.article, size: _selectedIndex == 2 ? 26 : 22),
+            label: _selectedIndex == 2 ? 'Timetable' : '',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
+        selectedItemColor: Colors.pink[300],
         unselectedItemColor: Colors.grey[500],
         onTap: _onItemTapped,
       ),
@@ -96,20 +84,20 @@ class _BottomNavBarState extends State<BottomNavBar> {
               ],
             ),
           ),
-          Positioned(
-            top: 766,
-            left: 80.00 * _selectedIndex,
-            child: AnimatedOpacity(
-              duration: const Duration(milliseconds: 600),
-              opacity: _selectedIndex == _selectedIndex ? 1 : 0,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                height: 5,
-                width: 110,
-                decoration: BoxDecoration(
-                  color: Colors.cyan[800],
-                  borderRadius: BorderRadius.circular(2),
-                ),
+          AnimatedPositioned(
+            top: 763,
+            left: _selectedIndex == 0 ? 22 : _selectedIndex == 2 ? (164.00 * _selectedIndex) - 20 : 164.00 * _selectedIndex, duration: const Duration(
+            milliseconds: 150,
+          ),
+            child: Container(
+              width: 100,
+              height: 6,
+              decoration: BoxDecoration(
+              color: Colors.pinkAccent[100],
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(5),
+                topRight: Radius.circular(5),
+              ),
               ),
             ),
           ),
