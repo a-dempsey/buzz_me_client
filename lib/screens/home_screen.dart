@@ -1,5 +1,6 @@
+import 'package:buzz_me/components/upcoming_notification.dart';
 import 'package:flutter/material.dart';
-import 'package:buzz_me/components/menu_bar.dart';
+import 'package:buzz_me/components/upcoming_notification.dart';
 
 import '../components/icon.dart';
 
@@ -78,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 13, right: 5),
+                  padding: const EdgeInsets.only(left: 12, right: 5),
                   child: ElevatedButton(
                     onPressed: () {
                       setState(() {
@@ -112,6 +113,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
+            SizedBox(height: 20),
+            Expanded(
+              child: UpcomingNotification(),
+            ),
+
           ],
         ),
       ),
