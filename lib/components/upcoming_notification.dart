@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'cancelation_toast.dart';
+
 class UpcomingNotification extends StatefulWidget {
   const UpcomingNotification({super.key});
 
@@ -53,7 +55,7 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
                         border: Border.all(
                           color: Colors.red.shade100,
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(16))
+                        borderRadius: const BorderRadius.all(Radius.circular(16))
                     ),
                     child: Row(
                       children: [
@@ -70,25 +72,35 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
                             ),
                           ),
                         ),
-                         Padding(
-                          padding: const EdgeInsets.only(left: 0),//(left: 115, right: 144),
-                          child:  Text(
-                            //TODO: fill in w server shit
-                            'UCC',
-                            style: TextStyle(
-                              color: Colors.grey.shade900,
-                              fontFamily: 'Roboto-Medium',
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-
-                            ),
-                        ),),
+                        Text(
+                          //TODO: fill in w server shit
+                          'UCC',
+                          style: TextStyle(
+                            color: Colors.grey.shade900,
+                            fontFamily: 'Roboto-Medium',
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
                         const Spacer(),
-
                         ElevatedButton(
-                          onPressed: () {
-                            // TODO: add popup to clarify deletion & then remove notification entirely if confirmed
-                          },
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Dialog(
+                                  // insetPadding: EdgeInsets.zero,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      //mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        CancelationToast(),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
                           style: ButtonStyle(
                             minimumSize: MaterialStateProperty.all(const Size(5, 30)),
                             backgroundColor: MaterialStateProperty.all<Color>(Colors.pink.shade100),
