@@ -1,7 +1,6 @@
+import 'package:buzz_me/components/nearest_routes.dart';
 import 'package:buzz_me/components/upcoming_notification.dart';
 import 'package:flutter/material.dart';
-import 'package:buzz_me/components/upcoming_notification.dart';
-
 import '../components/icon.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -113,15 +112,57 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
-            Expanded(
-              child: UpcomingNotification(),
+            if(!isPressedRoute | (isPressedRoute && isPressed))
+            const SizedBox(height: 20),
+            if(!isPressedRoute | (isPressedRoute && isPressed))
+              const SizedBox(
+                height:118,
+               child: UpcomingNotification(),
+             ),
+              const SizedBox(height: 20),
+            if(!isPressed | (isPressedRoute && isPressed))
+              Column(
+                children: [
+                  const Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 14),
+                        child: Text(
+                        'Routes Nearest To You',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Roboto-Medium',
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                const SizedBox(height: 15),
+                  Container(
+                    width: MediaQuery.of(context).size.width - 22,
+                    padding: const EdgeInsets.only(bottom: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.pink[100]?.withOpacity(0.3),
+                      border: Border.all(
+                        color: Colors.red.shade100,
+                      ),
+                      borderRadius: const BorderRadius.all(Radius.circular(16)),
+                    ),
+                    child: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        NearestRoutes(),
+                        NearestRoutes(),
+                      ],
+                    ),
+                  ),
+              ],
             ),
-
           ],
         ),
       ),
     );
   }
 }
-//display settings
