@@ -44,9 +44,8 @@ class CancelationToast extends StatelessWidget {
                 ),
                 Row(
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 0),
-                        child: ElevatedButton(
+
+                        ElevatedButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
@@ -67,7 +66,7 @@ class CancelationToast extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                        ),
+
                       ),
                        const Spacer(),
                        ElevatedButton(

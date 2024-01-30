@@ -88,11 +88,9 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
                               showDialog(
                                 context: context,
                                 builder: (context) {
-                                  return Dialog(
-                                  // insetPadding: EdgeInsets.zero,
+                                  return const Dialog(
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
-                                      //mainAxisAlignment: MainAxisAlignment.center,
                                       children: <Widget>[
                                         CancelationToast(),
                                       ],

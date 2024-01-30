@@ -1,6 +1,7 @@
 import 'package:buzz_me/components/nearest_routes.dart';
 import 'package:buzz_me/components/upcoming_notification.dart';
 import 'package:flutter/material.dart';
+import '../components/cancelation_toast.dart';
 import '../components/icon.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,7 +21,14 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 10),
+            // const SizedBox(height: 25),
+            // Row(
+            //   children: [
+            //     Expanded(child: CancelationToast())
+            //
+            //   ]
+            // ),
+            const SizedBox(height: 25), // 10
             Row(
                 children : [
                   const IconImage(imagePath: 'assets/images/bus_home.jpeg', width: 10, height: 15),
