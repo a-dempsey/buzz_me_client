@@ -1,3 +1,4 @@
+import 'package:buzz_me/components/confirmation_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:time_picker_spinner_pop_up/time_picker_spinner_pop_up.dart';
@@ -7,8 +8,6 @@ class SelectionModal extends StatelessWidget {
   const SelectionModal({super.key});
 
   static DateTime _mins = DateTime(0);
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +53,6 @@ class SelectionModal extends StatelessWidget {
               ),
               TimePickerSpinnerPopUp(
                 mode: CupertinoDatePickerMode.time,
-
                 initTime: DateTime.parse("0000-00-00 00:00:00"),
                 maxTime: DateTime(0).add(const Duration(minutes: 59)),
                 timeFormat: 'H:mm',
@@ -92,7 +90,10 @@ class SelectionModal extends StatelessWidget {
                   const Spacer(),
                   ElevatedButton(
                     onPressed: () {
-                      // TODO: remove notification from subscription
+                      Navigator.pop(context);
+                      if(_mins.minute >= 1) {
+                        ConfirmationToast.showConfirmationToast("A notification has been set for ${_mins.minute} minutes before \nthe bus arrives", context);
+                      }
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
