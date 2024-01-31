@@ -7,7 +7,6 @@ class ConfirmationToast{
       SnackBar(
         content: Row(
           children: [
-            const Icon(Icons.check),
             const SizedBox(width: 12),
             Text(
                 str,
