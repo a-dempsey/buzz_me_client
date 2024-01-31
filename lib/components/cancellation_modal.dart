@@ -1,3 +1,4 @@
+import 'package:buzz_me/components/cancellation_toast.dart';
 import 'package:flutter/material.dart';
 
 class CancellationModal extends StatelessWidget {
@@ -44,7 +45,6 @@ class CancellationModal extends StatelessWidget {
                 ),
                 Row(
                     children: [
-
                         ElevatedButton(
                           onPressed: () {
                             Navigator.pop(context);
@@ -66,12 +66,12 @@ class CancellationModal extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-
                       ),
                        const Spacer(),
                        ElevatedButton(
                         onPressed: () {
-                          // TODO: remove notification from subscription
+                          Navigator.pop(context);
+                          CancellationToast.showCancellationToast(context);
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(Colors.green.shade100.withOpacity(0.1)),
