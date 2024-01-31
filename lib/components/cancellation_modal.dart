@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CancelationToast extends StatelessWidget {
-  const CancelationToast({super.key});
+class CancellationModal extends StatelessWidget {
+  const CancellationModal({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'cancelation_toast.dart';
+import 'cancellation_modal.dart';
 
 class UpcomingNotification extends StatefulWidget {
   const UpcomingNotification({super.key});
@@ -92,7 +92,7 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
-                                        CancelationToast(),
+                                        CancellationModal(),
                                       ],
                                     ),
                                   );
