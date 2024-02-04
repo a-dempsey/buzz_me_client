@@ -1,9 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class LocationSearchBar extends StatefulWidget {
-  const LocationSearchBar({Key? key}) : super(key: key);
+  const LocationSearchBar({super.key});
 
   @override
   State<LocationSearchBar> createState() => _LocationSearchBarState();
@@ -13,14 +11,12 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 56.0),
+          padding: const EdgeInsets.only(right: 25),
           child: SearchAnchor(
               builder: (BuildContext context, SearchController controller) {
                 return SearchBar(
-                  elevation: const MaterialStatePropertyAll<double>(
-                    2.0),
+                  elevation: const MaterialStatePropertyAll<double>(1.0),
                   hintText: "Search locations",
                   hintStyle: MaterialStateProperty.all<TextStyle>(
                     const TextStyle(
@@ -29,10 +25,15 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
                       fontWeight: FontWeight.w400
                     ),
                   ),
-                  side: MaterialStateProperty.all(BorderSide(color: Colors.cyan[700]!, width: 2.5)),
+                  side: MaterialStateProperty.all(BorderSide(color: Colors.pink[100]!.withOpacity(0.7), width: 1)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    )
+                  ),
                   controller: controller,
                   leading: const Icon(Icons.search),
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.cyan[50]!),
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.pink[100]!),
                   padding: const MaterialStatePropertyAll<EdgeInsets>(
                       EdgeInsets.symmetric(horizontal: 16.0)),
                   onTap: () {
