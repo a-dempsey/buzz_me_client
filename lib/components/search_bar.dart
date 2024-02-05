@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class LocationSearchBar extends StatefulWidget {
@@ -8,6 +11,9 @@ class LocationSearchBar extends StatefulWidget {
 }
 
 class _LocationSearchBarState extends State<LocationSearchBar> {
+  static bool hasText = false;
+  static String newText = "";
+  TextEditingController locationTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,15 +37,20 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
                       borderRadius: BorderRadius.circular(16),
                     )
                   ),
-                  controller: controller,
+                  controller: locationTextController,
                   leading: const Icon(Icons.search),
+                  trailing: hasText ? [IconButton(icon: const Icon(Icons.close), onPressed: () { setState(() {hasText = false; locationTextController.clear();});})] : null,
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.pink[100]!),
                   padding: const MaterialStatePropertyAll<EdgeInsets>(
                       EdgeInsets.symmetric(horizontal: 16.0)),
                   onTap: () {
                    // TODO define search behaviour
+
                   },
-                  onChanged: (_) {
+                  onChanged: (newText) {
+                    setState(() {
+                      hasText = newText.isNotEmpty;
+                    });
                   },
                 );
               }, suggestionsBuilder:
