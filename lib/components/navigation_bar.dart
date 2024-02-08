@@ -55,20 +55,20 @@ class _BottomNavBarState extends State<BottomNavBar> {
         elevation: 0,
         items:  <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon:  Icon(Icons.fmd_good_outlined, size: _selectedIndex == 0 ? 26 : 22),
+            icon:  Icon(Icons.fmd_good_outlined, size: _selectedIndex == 0 ? 24 : 22),
             label: _selectedIndex == 0 ? 'Map' : '',
           ),
           BottomNavigationBarItem(
-            icon:  Icon(Icons.home, size: _selectedIndex == 1 ? 26 : 22),
+            icon:  Icon(Icons.home, size: _selectedIndex == 1 ? 24 : 22),
             label: _selectedIndex == 1 ? 'Home' : '',
           ),
           BottomNavigationBarItem(
-            icon:  Icon(Icons.article, size: _selectedIndex == 2 ? 26 : 22),
+            icon:  Icon(Icons.article, size: _selectedIndex == 2 ? 24 : 22),
             label: _selectedIndex == 2 ? 'Timetable' : '',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.pink[300],
+        selectedItemColor: Colors.black,
         unselectedItemColor: Colors.grey[500],
         onTap: _onItemTapped,
       ),
@@ -87,13 +87,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
           AnimatedPositioned(
             top: 763,
             left: _selectedIndex == 0 ? 22 : _selectedIndex == 2 ? (164.00 * _selectedIndex) - 20 : 164.00 * _selectedIndex, duration: const Duration(
-            milliseconds: 150,
+            milliseconds: 250,
           ),
             child: Container(
               width: 100,
               height: 6,
               decoration: BoxDecoration(
-              color: Colors.pinkAccent[100],
+              color: Colors.pink[100],
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(5),
                 topRight: Radius.circular(5),
