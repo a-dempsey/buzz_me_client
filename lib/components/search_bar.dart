@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LocationSearchBar extends StatefulWidget {
-  const LocationSearchBar({Key? key}) : super(key: key);
+  const LocationSearchBar({super.key});
 
   @override
   State<LocationSearchBar> createState() => _LocationSearchBarState();
@@ -55,6 +55,8 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
                     setState(() {
                       hasText = false;
                       locationTextController.clear();
+                      locationContainer?.remove();
+                      locationContainer = null;
                     });
                   },
                 ),
@@ -95,6 +97,7 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
                                       locationTextController.text = stop.toString();
                                       locationContainer?.remove();
                                       locationContainer = null;
+                                      FocusScope.of(context).unfocus();
                                     },
                                   ),
                               ],
