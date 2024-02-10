@@ -20,7 +20,7 @@ class _RouteDropdownState extends State<RouteDropdown> {
         borderRadius: BorderRadius.all(Radius.circular(16))
       ),
         child: Container(
-          width: MediaQuery.of(context).size.width - 50,
+          width: MediaQuery.of(context).size.width - 37,
           decoration: BoxDecoration(
             color: Colors.pink[100]?.withOpacity(0.43),
             border: Border.all(
