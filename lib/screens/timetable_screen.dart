@@ -1,3 +1,4 @@
+import 'package:buzz_me/components/dropdown_menu.dart';
 import 'package:buzz_me/components/search_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -41,6 +42,11 @@ class TimetableScreen extends StatelessWidget {
                     height: 50,
                     child: LocationSearchBar()
                   ),
+                    const SizedBox(height: 13.5),
+                    const SizedBox(
+                        height: 50,
+                        child: RouteDropdown()
+                    ),
 
                   // SizedBox(height: 15),
                   // FloatingActionButton(
