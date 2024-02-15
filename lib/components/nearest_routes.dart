@@ -1,3 +1,4 @@
+import 'package:buzz_me/components/selection_modal.dart';
 import 'package:flutter/material.dart';
 
 class NearestRoutes extends StatelessWidget {
@@ -16,7 +17,7 @@ class NearestRoutes extends StatelessWidget {
                 width: MediaQuery.of(context).size.width - 52,
                 height: 55.0,
                 decoration: BoxDecoration(
-                  color: Colors.pink[100],
+                  color: Colors.pink[100]!.withOpacity(0.6),
                   border: Border.all(
                     color: Colors.red.shade100,
                   ),
@@ -50,11 +51,23 @@ class NearestRoutes extends StatelessWidget {
                     const Spacer(),
                     ElevatedButton(
                       onPressed: () {
-                        // TODO: add popup to clarify deletion & then remove notification entirely if confirmed
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const Dialog(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    SelectionModal(),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
                       },
                       style: ButtonStyle(
                         minimumSize: MaterialStateProperty.all(const Size(5, 30)),
-                        backgroundColor: MaterialStateProperty.all<Color>(Colors.pink.shade100),
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.pink[100]!.withOpacity(0.1)),
                         foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
                         elevation: MaterialStateProperty.resolveWith<double>((states) {
                           return 0.0;
