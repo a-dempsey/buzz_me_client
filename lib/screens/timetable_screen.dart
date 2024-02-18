@@ -68,7 +68,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                       shape: RoundedRectangleBorder(side: BorderSide(width: 1, color: Colors.pink[100]!.withOpacity(0.7),),borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
-                          // TODO: change to match w names 
+                          // TODO: change to match w names
                           isAvailable = !isAvailable;
                           showRoutes = true;
                       },);},

@@ -1,11 +1,12 @@
 import 'package:buzz_me/components/nearest_routes.dart';
 import 'package:buzz_me/components/upcoming_notification.dart';
+import 'package:buzz_me/screens/search_screen.dart';
 import 'package:flutter/material.dart';
-import '../components/cancelation_toast.dart';
 import '../components/icon.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -13,6 +14,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool isPressed = false;
   bool isPressedRoute = false;
+  late PageController _pageController;
+
+  void _onClick(int index) {
+    SearchScreen();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // const SizedBox(height: 25),
-            // Row(
-            //   children: [
-            //     Expanded(child: CancelationToast())
-            //
-            //   ]
-            // ),
-            const SizedBox(height: 25), // 10
+            const SizedBox(height: 10),
             Row(
                 children : [
                   const IconImage(imagePath: 'assets/images/bus_home.jpeg', width: 10, height: 15),
@@ -60,7 +59,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   const Spacer(),
-                  const Icon(Icons.search, size: 28),
+                  IconButton(icon: const Icon(Icons.search, size: 28), onPressed: () {showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const Dialog(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            SearchScreen(),
+                          ],
+                        ),
+                      );
+                    },
+                  );},),
                   const Padding(
                     padding: EdgeInsets.only(left: 12, right: 12, bottom: 2),
                       child: Icon(Icons.settings_outlined, size: 28),
@@ -94,8 +105,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       },);
                     },
                     style: ButtonStyle(
+                      elevation: MaterialStateProperty.all(1),
                       minimumSize: MaterialStateProperty.all(const Size(14, 30)),
-                      backgroundColor: isPressed ? MaterialStateProperty.all<Color>(Colors.pink.shade300) : MaterialStateProperty.all<Color>(Colors.pink.shade100),
+                      backgroundColor: isPressed ? MaterialStateProperty.all<Color>(Colors.pink.shade300.withOpacity(0.7)) : MaterialStateProperty.all<Color>(Colors.pink[100]!.withOpacity(0.9)),
                       foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
                     ),
                     child: const Text(
@@ -110,8 +122,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     },);
                   },
                   style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(1),
                     minimumSize: MaterialStateProperty.all(const Size(14,30)),
-                    backgroundColor: isPressedRoute ? MaterialStateProperty.all<Color>(Colors.green.shade300) : MaterialStateProperty.all<Color>(Colors.green.shade100),
+                    backgroundColor: isPressedRoute ? MaterialStateProperty.all<Color>(Colors.green.shade300.withOpacity(0.8)) : MaterialStateProperty.all<Color>(Colors.green.shade100.withOpacity(0.9)),
                     foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
                   ),
                   child: const Text(
@@ -148,22 +161,26 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 const SizedBox(height: 15),
-                  Container(
-                    width: MediaQuery.of(context).size.width - 22,
-                    padding: const EdgeInsets.only(bottom: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.pink[100]?.withOpacity(0.3),
-                      border: Border.all(
-                        color: Colors.red.shade100,
+                  Material(
+                    elevation: 1,
+                    borderRadius: const BorderRadius.all(Radius.circular(16)),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width - 22,
+                      padding: const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.pink[100]?.withOpacity(0.2),
+                        border: Border.all(
+                          color: Colors.red.shade100,
+                        ),
+                        borderRadius: const BorderRadius.all(Radius.circular(16)),
                       ),
-                      borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    ),
-                    child: const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        NearestRoutes(),
-                        NearestRoutes(),
-                      ],
+                      child: const Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          NearestRoutes(),
+                          NearestRoutes()
+                        ],
+                      ),
                     ),
                   ),
               ],

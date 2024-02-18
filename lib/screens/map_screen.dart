@@ -44,12 +44,15 @@ class _MapScreenState extends State<MapScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          GoogleMap(
-            onMapCreated: _onMapCreated,
-            myLocationEnabled: true,
-            initialCameraPosition: CameraPosition(
-              target: _location,
-              zoom: 15.0,
+          Padding(
+            padding: const EdgeInsets.only(bottom:5),
+            child: GoogleMap(
+              onMapCreated: _onMapCreated,
+              myLocationEnabled: true,
+              initialCameraPosition: CameraPosition(
+                target: _location,
+                zoom: 15.0,
+              ),
             ),
           ),
         ],
