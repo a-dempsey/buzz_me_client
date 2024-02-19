@@ -15,11 +15,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool isPressed = false;
   bool isPressedRoute = false;
-  late PageController _pageController;
-
-  void _onClick(int index) {
-    SearchScreen();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +74,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                            MaterialPageRoute(
+                              builder: (context) => SettingsScreen(),
+                            ),
                           );
                         },
                       ),
