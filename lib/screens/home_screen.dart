@@ -1,6 +1,7 @@
 import 'package:buzz_me/components/nearest_routes.dart';
 import 'package:buzz_me/components/upcoming_notification.dart';
 import 'package:buzz_me/screens/search_screen.dart';
+import 'package:buzz_me/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import '../components/icon.dart';
 
@@ -72,9 +73,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                   );},),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 12, right: 12, bottom: 2),
-                      child: Icon(Icons.settings_outlined, size: 28),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12, right: 12, bottom: 2),
+                      child: IconButton(icon: const Icon(Icons.settings_outlined, size: 28),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                          );
+                        },
+                      ),
                   ),
                 ],
             ),
