@@ -1,8 +1,13 @@
 import 'package:buzz_me/components/nearest_routes.dart';
 import 'package:buzz_me/components/upcoming_notification.dart';
+
+import 'package:buzz_me/screens/map_screen.dart';
 import 'package:buzz_me/screens/search_screen.dart';
 import 'package:buzz_me/screens/settings_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:geocode/geocode.dart';
+import 'package:geolocator/geolocator.dart';
 import '../components/icon.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,6 +20,39 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool isPressed = false;
   bool isPressedRoute = false;
+  String _currentLocation = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
+  Future<void> _getCurrentLocation() async {
+    try {
+      String addr = await getCoords();
+      setState(() {
+        _currentLocation = addr;
+      });
+    } catch (err) {
+      if (kDebugMode) {
+        print(err);
+      }
+    }
+  }
+
+  Future<String> getCoords() async{
+    final position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+
+    final currentLocation = await GeoCode().reverseGeocoding(
+        latitude: position.latitude,
+        longitude: position.longitude);
+
+    final locationStr = currentLocation.streetAddress.toString();
+    return locationStr;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +80,10 @@ class _HomeScreenState extends State<HomeScreen> {
                            ),
                          ),
                        ),
-                       const Text(
-                         //TODO: fix w act loc
-                        'Current Location',
-                         style: TextStyle(
+
+                        Text(
+                        _currentLocation,
+                        style: const TextStyle(
                            color: Colors.black,
                            fontFamily: 'Roboto-Medium',
                            fontSize: 20,
