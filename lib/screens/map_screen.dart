@@ -1,7 +1,12 @@
 import 'dart:async';
+import 'dart:core';
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../stops/bus_stops.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -14,18 +19,18 @@ class _MapScreenState extends State<MapScreen> {
   final Completer<GoogleMapController> _controller = Completer();
   //ucc
   static LatLng _location = const LatLng(51.893324, -8.492030);
+  int counter = 0;
+  final Set<Marker> _markers = {};
+  Set<String> stopName = {};
+  Set<double> lat = {};
+  Set<double> lng = {};
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
+
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _getCurrentLocation();
-  }
-
-  Future<void> _getCurrentLocation() async {
+  Future<void> getCurrentLocation() async {
     LocationPermission locationPermission = await Geolocator.checkPermission();
     if (locationPermission == LocationPermission.denied) {
       await Geolocator.requestPermission();
@@ -39,6 +44,66 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
+
+  void getStations() async {
+    for (int i = 0; i < counter; i++) {
+      final Uint8List? markerIcon = await getMarkerIcon();
+      //BitmapDescriptor customIcon = await _createCustomIcon();
+      _markers.add(
+        Marker(
+          markerId: MarkerId(i.toString()),
+          position: LatLng(lat.elementAt(i), lng.elementAt(i)),
+          infoWindow: InfoWindow(
+            title: stopName.elementAt(i),
+          ),
+          icon: BitmapDescriptor.fromBytes(markerIcon!),
+        ),
+      );
+    }
+    // Call setState to trigger a rebuild and update the markers on the map
+    setState(() {
+      _onMapCreated;
+    });
+  }
+
+  // custom marker image
+  Future<Uint8List?> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    Codec codec = await instantiateImageCodec(
+      data.buffer.asUint8List(),
+      targetWidth: width,
+    );
+    FrameInfo fi = await codec.getNextFrame();
+
+    return (await fi.image.toByteData(format: ImageByteFormat.png))
+        ?.buffer
+        .asUint8List();
+  }
+
+  Future<Uint8List?> getMarkerIcon()  {
+    final markerIcon = getBytesFromAsset('assets/images/images.png', 190);
+    return markerIcon;
+    }
+
+  @override
+  void initState() {
+    super.initState();
+    getStopsFromServer(
+      onFailureCallback: () {
+        print("ERR: didn'/t get stops");
+      },
+      onSuccessCallback: (List<BusStop> stopsList) {
+        for (var stop in stopsList) {
+          stopName.add(stop.name.toString());
+          lat.add(stop.latitude.toDouble());
+          lng.add(stop.longitude.toDouble());
+          counter += 1;
+          getMarkerIcon();
+          getStations();
+        }},);
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +114,7 @@ class _MapScreenState extends State<MapScreen> {
             child: GoogleMap(
               onMapCreated: _onMapCreated,
               myLocationEnabled: true,
+              markers: _markers,
               initialCameraPosition: CameraPosition(
                 target: _location,
                 zoom: 15.0,
