@@ -19,32 +19,33 @@ class BusStop {
 //        Pair("Brookfield", LatLng(51.890247,-8.500054)),
 //        Pair("UCC Main Campus", LatLng(51.892137,-8.491714)),
 //    )
-Future<void> getStopsFromServer({
+Future<void> getStops({
   required void Function() onFailureCallback,
   required void Function(List<BusStop>) onSuccessCallback,
 }) async {
   try {
     //var response = await http.get(Uri.parse('http://localhost:3000'));
-    final List<String> locations = ["Dennehy's Cross", "Pouladuff", "Brookfield", "UCC Main Campus"];
+    final List<String> locations = [
+      "Dennehy's Cross",
+      "UCC Pouladuff Park & Ride",
+      "Brookfield Lodge",
+      "University College Cork"
+    ];
     final List<BusStop> stationsList = [];
 
-    var response = await http.get(
-      Uri.parse('https://maps.googleapis.com/maps/api/geocode/json?&address=$locations&key=$key'),
-    );
+    for (int i = 0; i < locations.length; i ++) {
+      final String location = locations[i];
+      var response = await http.get(
+        Uri.parse(
+            'https://maps.googleapis.com/maps/api/geocode/json?&address=$location&key=$key'),
+      );
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> parsed = json.decode(response.body);
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> parsed = json.decode(response.body);
+        final name = parsed['results'][0]['address_components'][0]['long_name'];
+        final lat = parsed['results'][0]['geometry']['location']['lat'];
+        final lng = parsed['results'][0]['geometry']['location']['lng'];
 
-      final name = parsed['results'][0]['address_components'][0]['long_name'];
-      final lat = parsed['results'][0]['geometry']['location']['lat'];
-      final lng = parsed['results'][0]['geometry']['location']['lng'];
-     // // final List<dynamic> stopsJSON = json.decode(response.body);
-
-
-      // for (final parsed in parsed) {
-      //   final String x = parsed['name'];
-      //   final List<dynamic> position = parsed['position']['coordinates'];
-      //
         stationsList.add(
           BusStop(
             name: name,
@@ -52,9 +53,10 @@ Future<void> getStopsFromServer({
             longitude: lng,
           ),
         );
-      onSuccessCallback(stationsList);
-    } else {
-      onFailureCallback();
+        onSuccessCallback(stationsList);
+      } else {
+        onFailureCallback();
+      }
     }
   } catch (e) {
     onFailureCallback();

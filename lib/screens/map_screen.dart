@@ -27,7 +27,6 @@ class _MapScreenState extends State<MapScreen> {
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
-
   }
 
   Future<void> getCurrentLocation() async {
@@ -44,11 +43,9 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-
   void getStations() async {
-    for (int i = 0; i < counter; i++) {
+    for (int i = 0; i < stopName.length; i++) {
       final Uint8List? markerIcon = await getMarkerIcon();
-      //BitmapDescriptor customIcon = await _createCustomIcon();
       _markers.add(
         Marker(
           markerId: MarkerId(i.toString()),
@@ -88,7 +85,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
-    getStopsFromServer(
+    getStops(
       onFailureCallback: () {
         print("ERR: didn'/t get stops");
       },
@@ -100,8 +97,8 @@ class _MapScreenState extends State<MapScreen> {
           counter += 1;
           getMarkerIcon();
           getStations();
-        }},);
-
+        }},
+    );
   }
 
   @override
