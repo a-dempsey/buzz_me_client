@@ -1,3 +1,4 @@
+import 'package:buzz_me/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import '../components/edit_textfield.dart';
 import '../components/icon.dart';
@@ -21,6 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink[300]!.withOpacity(0.8),
+        automaticallyImplyLeading: false,
       ),
       body: SafeArea(
         child: Container(
@@ -71,13 +73,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   obscureText: false,
                 ),
                 const SizedBox(height: 10),
-                // username textfield
                 EditText(
                   controller: confirmPasswordController,
                   hintText: 'Confirm Password',
                   obscureText: false,
                 ),
-                const SizedBox(height: 100),
+                const SizedBox(height: 70),
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -110,6 +111,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       )
                   ),
                 ),
+                const SizedBox(height: 40),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Already have an account?',
+                      style: TextStyle(color: Colors.grey[700]),
+                    ),
+                    const SizedBox(width: 4),
+                    TextButton(
+                      onPressed: () { Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                      );
+                      },
+                      child:  Text(
+                        'Log in',
+                        style: TextStyle(
+                          color: Colors.pink[300]!.withOpacity(0.8),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
               ],
             )
           )
