@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
-
 import '../components/edit_textfield.dart';
-import '../components/register_button.dart';
 import '../components/icon.dart';
 
-class RegisterScreen extends StatelessWidget {
-  RegisterScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
+  @override
+  _RegisterScreenState createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
-  // create user account method
   void createAccount() {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      appBar: AppBar(
+        backgroundColor: Colors.pink[300]!.withOpacity(0.8),
+      ),
       body: SafeArea(
         child: Container(
           height: double.infinity,
@@ -25,42 +29,35 @@ class RegisterScreen extends StatelessWidget {
           gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Colors.cyan.shade800, Colors.grey.shade300],
-          stops: const [0.1, 0.9],
+          colors: [Colors.pink[300]!.withOpacity(0.8), Colors.white],
+          stops: const [0.5, 0.9],
             ),
           ),
           child: Center(
             child: Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 60),
-                // icon display
-                    // image
-                const IconImage(imagePath: 'assets/images/bus_icon.png'),
-
-                const SizedBox(height: 40),
-                Text(
+                const SizedBox(height: 2),
+                const IconImage(imagePath: 'assets/images/bus_icon.png', width: 80, height: 60),
+                const SizedBox(height: 30),
+                const Text(
                   'Create Account',
                   style: TextStyle(
-                    color: Colors.grey[800],
+                    color: Colors.white,
                     fontSize: 40,
                     fontFamily: 'Roboto-Medium',
-                    //fontWeight: FontWeight.w500,
                   ),
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 10),
                 // desc
-                Text(
+                const Text(
                   'Register with your UCC email address',
                   style: TextStyle(
-                    color: Colors.grey[800],
+                    color: Colors.white,
                     fontSize: 16,
                     fontFamily: 'Roboto-Regular',
-                   // fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(height: 40),
-                // username textfield
                 EditText(
                   controller: usernameController,
                   hintText: 'Email',
@@ -80,11 +77,38 @@ class RegisterScreen extends StatelessWidget {
                   hintText: 'Confirm Password',
                   obscureText: false,
                 ),
-                const SizedBox(height: 35),
+                const SizedBox(height: 100),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
 
-                // sign in button
-                RegisterButton(
-                  onTap: createAccount,
+                    },);
+                  },
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(1),
+                    backgroundColor:  MaterialStateProperty.all<Color>(Colors.white),
+                    foregroundColor: MaterialStateProperty.all<Color>(Colors.pink[300]!.withOpacity(0.8)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                          ),
+                      ),
+                  ),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width - 100,
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                          child: Text(
+                            'Register',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: 'Roboto-Medium',
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          )
+                      )
+                  ),
                 ),
               ],
             )

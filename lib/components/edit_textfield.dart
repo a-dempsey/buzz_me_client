@@ -20,20 +20,15 @@ class EditText extends StatelessWidget {
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade300),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade400),
-              borderRadius: BorderRadius.circular(26),
-            ),
-            fillColor: Colors.grey.shade300,
-            //#629fa7
+          enabledBorder:  const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: Colors.white,
+              )
+          ),
+            fillColor: Colors.pink[300]!.withOpacity(0.01),
             filled: true,
             hintText: hintText,
-            hintStyle: TextStyle(color: Colors.grey[600])),
-           // color: Colors.cyan[800],
+            hintStyle: const TextStyle(color: Colors.white)),
       ),
     );
   }
