@@ -4,10 +4,16 @@ import 'package:flutter/material.dart';
 import '../components/edit_textfield.dart';
 import '../components/icon.dart';
 import '../components/google_sign_in.dart';
-import '../components/log_in_button.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
 
   // text editing controllers
   static final usernameController = TextEditingController();
@@ -19,144 +25,148 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.pink[300]!.withOpacity(0.8),
+        automaticallyImplyLeading: false,
+      ),
       body: SafeArea(
         child: Container(
           height: double.infinity,
           decoration:  BoxDecoration(
           gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Colors.cyan.shade800, Colors.grey.shade300],
-          stops: const [0.1, 0.9],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.pink[300]!.withOpacity(0.8), Colors.white],
+            stops: const [0.5, 0.9],
           ),
-          ),
-
-          child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 40),
-
-              // icon display
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // image
-                  IconImage(imagePath: 'assets/images/bus_icon.png'),
-                ],
+        ),
+        child: Column(
+          children: [
+            const SizedBox(height: 2),
+            // icon display
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // image
+                IconImage(imagePath: 'assets/images/bus_icon.png', width: 60, height: 80),
+              ],
+            ),
+            const SizedBox(height:30),
+            // heading
+            const Text(
+              'Login',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 40,
+                fontFamily: 'Roboto-Regular',
+                fontWeight: FontWeight.w500,
               ),
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              'UCC Shuttle Bus Services',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontFamily: 'Roboto-Regular',
+              ),
+            ),
+            const SizedBox(height: 40),
+            EditText(
+              controller: usernameController,
+              hintText: 'Username',
+              obscureText: false,
+            ),
+            const SizedBox(height: 10),
+            EditText(
+              controller: passwordController,
+              hintText: 'Password',
+              obscureText: true,
+            ),
+            const SizedBox(height: 15),
+           const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'Forgot Password?',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+            // const SizedBox(height: 75),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              //   child: Row(
+              //     children: [
+              //       Expanded(
+              //         child: Divider(
+              //           thickness: 0.6,
+              //           color: Colors.grey[400],
+              //         ),
+              //       ),
+              //       Padding(
+              //         padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              //         child: Text(
+              //           'Or continue with',
+              //           style: TextStyle(color: Colors.white),
+              //         ),
+              //       ),
+              //       Expanded(
+              //         child: Divider(
+              //           thickness: 0.6,
+              //           color: Colors.grey[400],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // const SizedBox(height: 25),
+              // const Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     // google button
+              //     GoogleSignIn(imagePath: 'assets/images/google_logo.jpeg'),
+              //   ],
+              // ),
+          const SizedBox(height: 70),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
 
-              const SizedBox(height:40),
-              // heading
-              Text(
-                'Buzz Me!',
-                style: TextStyle(
-                  color: Colors.grey[800],
-                  fontSize: 40,
-                  fontFamily: 'Limelight',
-                  fontWeight: FontWeight.w500,
+              },);
+            },
+            style: ButtonStyle(
+              elevation: MaterialStateProperty.all(1),
+              backgroundColor:  MaterialStateProperty.all<Color>(Colors.white),
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.pink[300]!.withOpacity(0.8)),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0),
                 ),
               ),
-
-              const SizedBox(height: 25),
-              // desc
-              Text(
-                'UCC Shuttle Bus Services',
-                style: TextStyle(
-                  color: Colors.grey[800],
-                  fontSize: 16,
-                  fontFamily: 'Roboto-Regular',
-
-                ),
-              ),
-
-              const SizedBox(height: 40),
-              // username textfield
-              EditText(
-                controller: usernameController,
-                hintText: 'Username',
-                obscureText: false,
-              ),
-
-              const SizedBox(height: 10),
-
-              // password textfield
-              EditText(
-                controller: passwordController,
-                hintText: 'Password',
-                obscureText: true,
-              ),
-
-              const SizedBox(height: 15),
-
-              // forgot password?
-               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Forgot Password?',
+            ),
+            child: SizedBox(
+                width: MediaQuery.of(context).size.width - 100,
+                child: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Text(
+                      'Log in',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.cyan.shade900,
+                        fontFamily: 'Roboto-Medium',
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
                       ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 25),
-
-              // sign in button
-              LogInButton(
-                onTap: signIn,
-              ),
-
-              const SizedBox(height: 50),
-
-              // or continue with
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        thickness: 0.6,
-                        color: Colors.grey[400],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text(
-                        'Or continue with',
-                        style: TextStyle(color: Colors.grey[700]),
-                      ),
-                    ),
-                    Expanded(
-                      child: Divider(
-                        thickness: 0.6,
-                        color: Colors.grey[400],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 25),
-
-              // google sign in
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-
-                children: [
-                  // google button
-                  GoogleSignIn(imagePath: 'assets/images/google_logo.jpeg'),
-
-                ],
-              ),
-
+                    )
+                )
+            ),
+          ),
               const SizedBox(height: 35),
-
               // not a member? register now
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -166,26 +176,23 @@ class LoginScreen extends StatelessWidget {
                     style: TextStyle(color: Colors.grey[700]),
                   ),
                   const SizedBox(width: 4),
-
-              InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, '/register_screen');
-                },
-                child: const Text(
-                  'Register now',
-                  style: TextStyle(
-                    color: Colors.teal,
-                    fontWeight: FontWeight.bold,
-                  ),
-
+                 TextButton(
+                  onPressed: () { Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RegisterScreen(),
+                    ),
+                  );
+                   }, child:  Text('Register now', style: TextStyle(
+                  color: Colors.pink[300]?.withOpacity(0.8),
+                  fontWeight: FontWeight.bold,
+                ),),
                 ),
-              )
                 ],
               )
             ],
           ),
         ),
-      ),
       ),
     );
   }
