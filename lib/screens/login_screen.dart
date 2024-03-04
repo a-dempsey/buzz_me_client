@@ -1,9 +1,11 @@
 import 'package:buzz_me/screens/register_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../components/edit_textfield.dart';
 import '../components/icon.dart';
 import '../components/google_sign_in.dart';
+import 'nav_screen.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -19,8 +21,25 @@ class _LoginScreenState extends State<LoginScreen> {
   static final usernameController = TextEditingController();
   static final passwordController = TextEditingController();
 
-  // sign user in method
-  void signIn() {}
+  String authError = "";
+
+  Future<void> passwordReset() async {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: "user@example.com");
+  }
+
+  Future<bool> login() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: usernameController.text.trim(),
+          password: passwordController.text.trim());
+      return true;
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        authError = "Incorrect username or password";
+      });
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 40,
-                fontFamily: 'Roboto-Regular',
-                fontWeight: FontWeight.w500,
+                fontFamily: 'Roboto-Medium',
               ),
             ),
             const SizedBox(height: 10),
@@ -84,15 +102,21 @@ class _LoginScreenState extends State<LoginScreen> {
               obscureText: true,
             ),
             const SizedBox(height: 15),
-           const Padding(
+            Padding(
             padding: EdgeInsets.symmetric(horizontal: 25.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
-                  'Forgot Password?',
-                  style: TextStyle(
-                    color: Colors.white,
+
+                TextButton(
+                  onPressed: () {
+                    passwordReset();
+                  },
+                  child: const Text(
+                    'Forgot Password?',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],
@@ -133,12 +157,18 @@ class _LoginScreenState extends State<LoginScreen> {
               //     GoogleSignIn(imagePath: 'assets/images/google_logo.jpeg'),
               //   ],
               // ),
-          const SizedBox(height: 70),
+          const SizedBox(height: 30),
           ElevatedButton(
-            onPressed: () {
-              setState(() {
-
-              },);
+            onPressed: () async {
+              if(await login()) {
+                setState(() {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                    builder: (context) => const NavScreen(),
+                ),
+              );});
+              }
             },
             style: ButtonStyle(
               elevation: MaterialStateProperty.all(1),
@@ -188,6 +218,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontWeight: FontWeight.bold,
                 ),),
                 ),
+                ],
+              ),
+              const SizedBox(height: 15),
+              if (authError != "")
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      authError,
+                      style: TextStyle(
+                          fontFamily: 'Roboto-Medium',
+                          fontSize: 16,
+                          color: Colors.red[700]
+                      ),
+                    ),
                 ],
               )
             ],

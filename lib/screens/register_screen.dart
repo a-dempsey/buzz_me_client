@@ -108,7 +108,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   hintText: 'Confirm Password',
                   obscureText: true,
                 ),
-                const SizedBox(height: 70),
+                const SizedBox(height: 50),
                 ElevatedButton(
                   onPressed: () async {
                     if(await createAccount()){

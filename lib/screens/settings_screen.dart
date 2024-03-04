@@ -1,5 +1,5 @@
-import 'package:buzz_me/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'account_settings_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -71,7 +71,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SettingsScreen(),
+                        builder: (context) => AccountSettingsScreen(),
                       ),
                     );
                   },

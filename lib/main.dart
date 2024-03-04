@@ -1,17 +1,29 @@
-import 'package:buzz_me/screens/login_screen.dart';
-import 'package:buzz_me/screens/nav_screen.dart';
-import 'package:buzz_me/screens/register_screen.dart';
+import 'package:buzz_me/routes/bus_routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'firebase_options.dart';
+import '../authentication/authentication.dart';
 
-void main()  {
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(
+  await Firebase.initializeApp(
     name: 'buzz-me-client',
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  getRoutes(
+    onFailureCallback: () {
+      print("ERR: didn'/t get stops");
+    },
+    onSuccessCallback: (List<BusRoute> stopsList) {
+      print("hi");
+      // for (var stop in stopsList) {
+      //
+      // }
+      },
+  );
+
   runApp(const MyApp());
 }
 
@@ -20,11 +32,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return  const MaterialApp(
       debugShowCheckedModeBanner: false,
-      //  home: LoginScreen(),
-      // home: RegisterScreen(),
-      home: NavScreen(),
+      home: Authentication(),
     );
   }
 }
