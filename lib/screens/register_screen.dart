@@ -1,7 +1,9 @@
 import 'package:buzz_me/screens/login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../components/edit_textfield.dart';
 import '../components/icon.dart';
+import 'nav_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -15,7 +17,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
-  void createAccount() {}
+  String authError = '';
+
+  Future<bool> createAccount() async {
+    String err = "";
+    try {
+
+      if (passwordController.text.trim() == confirmPasswordController.text.trim()){
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: usernameController.text.trim(),
+          password: passwordController.text.trim(),
+        );
+        return true;
+      } else {
+        setState(() {
+          authError = 'Passwords do not match';
+        });
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        err = 'The password provided is too weak.';
+      } else if (e.code == 'email-already-in-use') {
+        err = 'The account already exists for that email.';
+      }
+      setState(() {
+        authError = err;
+      });
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,20 +100,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 EditText(
                   controller: passwordController,
                   hintText: 'Password',
-                  obscureText: false,
+                  obscureText: true,
                 ),
                 const SizedBox(height: 10),
                 EditText(
                   controller: confirmPasswordController,
                   hintText: 'Confirm Password',
-                  obscureText: false,
+                  obscureText: true,
                 ),
                 const SizedBox(height: 70),
                 ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-
-                    },);
+                  onPressed: () async {
+                    if(await createAccount()){
+                      setState(() {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const NavScreen(),
+                          ),
+                        );
+                      },);
+                    }
                   },
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(1),
@@ -134,6 +171,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           color: Colors.pink[300]!.withOpacity(0.8),
                           fontWeight: FontWeight.bold,
                         ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15),
+                if (authError != "")
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      authError,
+                      style: TextStyle(
+                          fontFamily: 'Roboto-Medium',
+                          fontSize: 16,
+                          color: Colors.red[700]
                       ),
                     ),
                   ],
