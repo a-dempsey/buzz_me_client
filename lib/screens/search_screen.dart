@@ -13,7 +13,7 @@ class SearchScreen extends StatelessWidget {
             children: [
               const SizedBox(height: 20),
               Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 70.0),
+              padding: const EdgeInsets.symmetric(horizontal: 100.0),
                  child: Text(
                 'Enter route details',
                   style: TextStyle(

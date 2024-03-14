@@ -78,7 +78,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Future<Uint8List?> getMarkerIcon()  {
-    final markerIcon = getBytesFromAsset('assets/images/images.png', 190);
+    final markerIcon = getBytesFromAsset('assets/images/images.png', 170);
     return markerIcon;
     }
 
@@ -100,6 +100,7 @@ class _MapScreenState extends State<MapScreen> {
         }},
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

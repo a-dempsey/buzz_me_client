@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:buzz_me/screens/discover_routes.dart';
-import 'package:buzz_me/screens/nearest_routes.dart';
+//import 'package:buzz_me/screens/nearest_routes.dart';
 import 'package:buzz_me/screens/saved_routes.dart';
 
 class HomeMenu extends StatefulWidget {
@@ -31,7 +31,7 @@ class HomeMenuState extends State<HomeMenu> with SingleTickerProviderStateMixin 
 
   static const List<Widget> _menutabs = [
     DiscoverRoutes(),
-    NearestRoutes(),
+    //NearestRoutes(),
     SavedRoutes(),
   ];
 

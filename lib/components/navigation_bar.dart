@@ -3,14 +3,6 @@ import 'package:buzz_me/screens/home_screen.dart';
 import 'package:buzz_me/screens/map_screen.dart';
 import 'package:buzz_me/screens/timetable_screen.dart';
 
-class NavigationBar extends StatelessWidget {
-  const NavigationBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const BottomNavBar();
-  }
-}
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
@@ -72,6 +64,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         unselectedItemColor: Colors.grey[500],
         onTap: _onItemTapped,
       ),
+
       body: Stack(
         children: [
           Positioned(

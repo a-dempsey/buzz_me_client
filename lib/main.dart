@@ -1,4 +1,5 @@
 import 'package:buzz_me/routes/bus_routes.dart';
+import 'package:buzz_me/stops/bus_stops.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
@@ -11,19 +12,17 @@ void main() async {
     name: 'buzz-me-client',
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
   getRoutes(
     onFailureCallback: () {
-      print("ERR: didn'/t get stops");
+      print("GET ROUTES FAILURE");
     },
     onSuccessCallback: (List<BusRoute> stopsList) {
-      print("hi");
+      print("GET ROUTES SUCCESS");
       // for (var stop in stopsList) {
       //
       // }
       },
   );
-
   runApp(const MyApp());
 }
 

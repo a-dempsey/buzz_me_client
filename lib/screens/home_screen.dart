@@ -1,14 +1,14 @@
 import 'package:buzz_me/components/nearest_routes.dart';
 import 'package:buzz_me/components/upcoming_notification.dart';
-
-import 'package:buzz_me/screens/map_screen.dart';
 import 'package:buzz_me/screens/search_screen.dart';
 import 'package:buzz_me/screens/settings_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geocode/geocode.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../components/icon.dart';
+import 'package:geocoding/geocoding.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,13 +21,14 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isPressed = false;
   bool isPressedRoute = false;
   String _currentLocation = "";
+  late LatLng _current;
 
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
   }
-
+  
   Future<void> _getCurrentLocation() async {
     try {
       String addr = await getCoords();

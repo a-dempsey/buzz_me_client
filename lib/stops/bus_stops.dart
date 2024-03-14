@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-
 class BusStop {
   final String name;
   final double latitude;
@@ -28,8 +27,9 @@ Future<void> getStops({
     final List<String> locations = [
       "Dennehy's Cross",
       "UCC Pouladuff Park & Ride",
-      "Brookfield Lodge",
-      "University College Cork"
+      "University College Cork",
+      "Brookfield Student Accommodation",
+      "Black Ash Park & Ride"
     ];
     final List<BusStop> stationsList = [];
 
@@ -37,7 +37,7 @@ Future<void> getStops({
       final String location = locations[i];
       var response = await http.get(
         Uri.parse(
-            'https://maps.googleapis.com/maps/api/geocode/json?&address=$location&key=$key'),
+            'https://maps.googleapis.com/maps/api/geocode/json?&address=$location&key=AIzaSyACvY1ZY8DDj3E8htxZE4CHISOtDJv9Rek'),
       );
       if (response.statusCode == 200) {
         final Map<String, dynamic> parsed = json.decode(response.body);
@@ -54,6 +54,7 @@ Future<void> getStops({
           ),
         );
         onSuccessCallback(stationsList);
+
       } else {
         onFailureCallback();
       }
