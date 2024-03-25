@@ -78,7 +78,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ),
           ),
           AnimatedPositioned(
-            top: 763,
+            top: 825,
             left: _selectedIndex == 0 ? 22 : _selectedIndex == 2 ? (164.00 * _selectedIndex) - 20 : 164.00 * _selectedIndex, duration: const Duration(
             milliseconds: 250,
           ),
