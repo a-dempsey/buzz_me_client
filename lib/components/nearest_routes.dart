@@ -1,9 +1,16 @@
 import 'package:buzz_me/components/selection_modal.dart';
 import 'package:flutter/material.dart';
 
-class NearestRoutes extends StatelessWidget {
+class NearestRoutes extends StatefulWidget {
   const NearestRoutes({super.key});
+  static String time = "13:30";
+  static String destination = "Main Campus";
 
+  @override
+  State<NearestRoutes> createState() => _NearestRoutesState();
+}
+
+class _NearestRoutesState extends State<NearestRoutes> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,10 +36,10 @@ class NearestRoutes extends StatelessWidget {
                   child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 12, right: 115),
+                        padding: const EdgeInsets.only(left: 12, right: 70),
                         child: Text(
                           //TODO: fill in w server shit
-                          '02:00',
+                          NearestRoutes.time,
                           style: TextStyle(
                             color: Colors.grey.shade900,
                             fontFamily: 'Roboto-Medium',
@@ -43,7 +50,7 @@ class NearestRoutes extends StatelessWidget {
                       ),
                       Text(
                         //TODO: fill in w server shit
-                        'F (T)',
+                        NearestRoutes.destination,
                         style: TextStyle(
                           color: Colors.grey.shade900,
                           fontFamily: 'Roboto-Medium',

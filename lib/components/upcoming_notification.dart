@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'cancellation_modal.dart';
 
 class UpcomingNotification extends StatefulWidget {
-  final String time;
-  final String destination;
+  static String time = "";
+  static String destination = "";
   static bool display = true;
 
-  const UpcomingNotification({super.key, required this.time, required this.destination});
+  const UpcomingNotification({super.key});
   @override
   State<UpcomingNotification> createState() => _UpcomingNotificationState();
 }
@@ -48,7 +48,7 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
                 ],
               ),
               const SizedBox(height: 12),
-              if(UpcomingNotification.display == true)
+              if(UpcomingNotification.display == true && UpcomingNotification.time.isNotEmpty)
                 Row(
                   children: [
                     Material(
@@ -75,7 +75,7 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
                                   left: 12, right: 70),
                               child: Text(
                                 //TODO: fill in w server shit
-                                widget.time,
+                                UpcomingNotification.time,
                                 style: TextStyle(
                                   color: Colors.grey.shade900,
                                   fontFamily: 'Roboto-Medium',
@@ -86,7 +86,7 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
                             ),
                             Text(
                               //TODO: fill in w server shit
-                              widget.destination,
+                              UpcomingNotification.destination,
                               style: TextStyle(
                                 color: Colors.grey.shade900,
                                 fontFamily: 'Roboto-Medium',
@@ -140,7 +140,7 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
                     ),
                   ],
                 ),
-              if(UpcomingNotification.display == false)
+             if(UpcomingNotification.display == false | UpcomingNotification.time.isEmpty)
                   Text(
                     "You don't have any upcoming notifications at this time",
                     style: TextStyle(
@@ -152,7 +152,6 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
             ],
           ),
         ),
-
       ),
     );
   }

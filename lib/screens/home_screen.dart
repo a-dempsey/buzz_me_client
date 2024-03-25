@@ -1,75 +1,21 @@
 import 'package:buzz_me/components/nearest_routes.dart';
-import 'package:buzz_me/components/selection_modal.dart';
 import 'package:buzz_me/components/upcoming_notification.dart';
-import 'package:buzz_me/screens/search_screen.dart';
-import 'package:buzz_me/screens/settings_screen.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:geocode/geocode.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../components/icon.dart';
-import 'package:geocoding/geocoding.dart';
 
 class HomeScreen extends StatefulWidget {
-
   const HomeScreen({super.key, Widget? widgetToShow});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
-
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isPressed = false;
   bool isPressedRoute = false;
-  String _currentLocation = "";
-  late LatLng _current;
-  Widget? _displayNotifications;
 
   @override
   void initState() {
     super.initState();
-    _getCurrentLocation();
-  }
-  
-  Future<void> _getCurrentLocation() async {
-    try {
-      String addr = await getCoords();
-      setState(() {
-        _currentLocation = addr;
-      });
-    } catch (err) {
-      if (kDebugMode) {
-        print(err);
-      }
-    }
-  }
-
-  Future<String> getCoords() async{
-    final position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
-
-    final currentLocation = await GeoCode().reverseGeocoding(
-        latitude: position.latitude,
-        longitude: position.longitude);
-
-    final locationStr = currentLocation.streetAddress.toString();
-    return locationStr;
-  }
-
-  void openModal() async {
-    final result = await showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) => const SelectionModal(),
-    );
-
-    if (result != null) {
-      setState(() {
-        _displayNotifications = result;
-      });
-    }
   }
 
   @override
@@ -149,8 +95,8 @@ class _HomeScreenState extends State<HomeScreen> {
             if(!isPressedRoute | (isPressedRoute && isPressed))
               const SizedBox(height: 20),
             if(!isPressedRoute | (isPressedRoute && isPressed) )
-              UpcomingNotification.display == true ? const SizedBox(height:118, child: UpcomingNotification(time: '', destination: '',),) : const SizedBox(height: 95, child: UpcomingNotification(time: '', destination: '',)),
-              UpcomingNotification.display == true ? const SizedBox(height: 20) : const SizedBox(height: 10),
+              (UpcomingNotification.display == true && UpcomingNotification.time.isNotEmpty) ? const SizedBox(height:118, child: UpcomingNotification()) : const SizedBox(height: 95, child: UpcomingNotification()),
+            (UpcomingNotification.display == true && UpcomingNotification.time.isNotEmpty) ? const SizedBox(height: 20) : const SizedBox(height: 10),
             if(!isPressed | (isPressedRoute && isPressed))
               Column(
                 children: [

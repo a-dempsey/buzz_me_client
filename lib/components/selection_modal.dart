@@ -1,13 +1,20 @@
 import 'package:buzz_me/components/confirmation_toast.dart';
+import 'package:buzz_me/components/upcoming_notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:time_picker_spinner_pop_up/time_picker_spinner_pop_up.dart';
+import '../screens/nav_screen.dart';
+import 'nearest_routes.dart';
+class SelectionModal extends StatefulWidget {
 
-
-class SelectionModal extends StatelessWidget {
   const SelectionModal({super.key});
+  @override
+  State<SelectionModal> createState() => _SelectionModalState();
+}
 
+class _SelectionModalState extends State<SelectionModal> {
   static DateTime _mins = DateTime(0);
+  bool showNotification = false;
 
   @override
   Widget build(BuildContext context) {
@@ -89,8 +96,18 @@ class SelectionModal extends StatelessWidget {
                   ),
                   const Spacer(),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       Navigator.pop(context);
+                      setState(() {
+                        UpcomingNotification.display = true;
+                        UpcomingNotification.time = NearestRoutes.time;
+                        UpcomingNotification.destination = NearestRoutes.destination;
+                      });
+                      Navigator.pushReplacement(context, PageRouteBuilder(
+                        pageBuilder: (context, animation1, animation2) => const NavScreen(),
+                        transitionDuration: Duration.zero,
+                        reverseTransitionDuration: Duration.zero,
+                      ),);
                       if(_mins.minute >= 1) {
                         ConfirmationToast.showConfirmationToast("A notification has been set for ${_mins.minute} minutes before \nthe bus arrives", context);
                       }
