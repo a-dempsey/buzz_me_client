@@ -1,4 +1,5 @@
 import 'package:buzz_me/components/nearest_routes.dart';
+import 'package:buzz_me/components/selection_modal.dart';
 import 'package:buzz_me/components/upcoming_notification.dart';
 import 'package:buzz_me/screens/search_screen.dart';
 import 'package:buzz_me/screens/settings_screen.dart';
@@ -11,10 +12,12 @@ import '../components/icon.dart';
 import 'package:geocoding/geocoding.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+
+  const HomeScreen({super.key, Widget? widgetToShow});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
+
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -22,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isPressedRoute = false;
   String _currentLocation = "";
   late LatLng _current;
+  Widget? _displayNotifications;
 
   @override
   void initState() {
@@ -55,6 +59,19 @@ class _HomeScreenState extends State<HomeScreen> {
     return locationStr;
   }
 
+  void openModal() async {
+    final result = await showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) => const SelectionModal(),
+    );
+
+    if (result != null) {
+      setState(() {
+        _displayNotifications = result;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,67 +79,19 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 10),
-            Row(
-                children : [
-                  const IconImage(imagePath: 'assets/images/bus_home.jpeg', width: 10, height: 15),
-                   Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: [
-                       Padding(
-                         padding: const EdgeInsets.only(left: 2),
-                         child: Text(
-                           'Location',
-                           style: TextStyle(
-                             color: Colors.grey[700],
-                             fontFamily: 'Roboto-Medium',
-                             fontSize: 16,
-                             fontWeight: FontWeight.w400,
-                           ),
-                         ),
-                       ),
-
-                        Text(
-                        _currentLocation,
-                        style: const TextStyle(
-                           color: Colors.black,
-                           fontFamily: 'Roboto-Medium',
-                           fontSize: 20,
-                           fontWeight: FontWeight.w800,
-                         ),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  IconButton(icon: const Icon(Icons.search, size: 28), onPressed: () {showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const Dialog(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            SearchScreen(),
-                          ],
-                        ),
-                      );
-                    },
-                  );},),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12, bottom: 2),
-                      child: IconButton(icon: const Icon(Icons.settings_outlined, size: 28),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SettingsScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                  ),
-                ],
+            Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: const Offset(0, -6),
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
+            ),
+            const SizedBox(height: 10),
             const Row(
               children: [
                 Padding(
@@ -178,13 +147,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             if(!isPressedRoute | (isPressedRoute && isPressed))
-            const SizedBox(height: 20),
-            if(!isPressedRoute | (isPressedRoute && isPressed))
-              const SizedBox(
-                height:118,
-               child: UpcomingNotification(),
-             ),
               const SizedBox(height: 20),
+            if(!isPressedRoute | (isPressedRoute && isPressed) )
+              UpcomingNotification.display == true ? const SizedBox(height:118, child: UpcomingNotification(time: '', destination: '',),) : const SizedBox(height: 95, child: UpcomingNotification(time: '', destination: '',)),
+              UpcomingNotification.display == true ? const SizedBox(height: 20) : const SizedBox(height: 10),
             if(!isPressed | (isPressedRoute && isPressed))
               Column(
                 children: [
@@ -222,7 +188,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           NearestRoutes(),
-                          NearestRoutes()
                         ],
                       ),
                     ),

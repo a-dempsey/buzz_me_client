@@ -1,9 +1,18 @@
 import 'package:buzz_me/components/cancellation_toast.dart';
+import 'package:buzz_me/components/upcoming_notification.dart';
+import 'package:buzz_me/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
-class CancellationModal extends StatelessWidget {
+import '../screens/nav_screen.dart';
+
+class CancellationModal extends StatefulWidget {
   const CancellationModal({super.key});
 
+  @override
+  State<CancellationModal> createState() => _CancellationModalState();
+}
+
+class _CancellationModalState extends State<CancellationModal> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -70,8 +79,16 @@ class CancellationModal extends StatelessWidget {
                        const Spacer(),
                        ElevatedButton(
                         onPressed: () {
-                          Navigator.pop(context);
                           CancellationToast.showCancellationToast(context);
+                          setState(() {
+                            UpcomingNotification.display = false;
+                          });
+                          Navigator.pop(context);
+                          Navigator.pushReplacement(context, PageRouteBuilder(
+                            pageBuilder: (context, animation1, animation2) => const NavScreen(),
+                            transitionDuration: Duration.zero,
+                            reverseTransitionDuration: Duration.zero,
+                          ),);
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(Colors.green.shade100.withOpacity(0.1)),
