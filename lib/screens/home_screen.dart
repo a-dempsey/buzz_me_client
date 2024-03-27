@@ -95,8 +95,9 @@ class _HomeScreenState extends State<HomeScreen> {
             if(!isPressedRoute | (isPressedRoute && isPressed))
               const SizedBox(height: 20),
             if(!isPressedRoute | (isPressedRoute && isPressed) )
-              (UpcomingNotification.display == true && UpcomingNotification.time.isNotEmpty) ? const SizedBox(height:118, child: UpcomingNotification()) : const SizedBox(height: 95, child: UpcomingNotification()),
-            (UpcomingNotification.display == true && UpcomingNotification.time.isNotEmpty) ? const SizedBox(height: 20) : const SizedBox(height: 10),
+              //(UpcomingNotification.display == true && UpcomingNotification.time.isNotEmpty) ? const SizedBox(height:118, child: UpcomingNotification()) : const SizedBox(height: 95, child: UpcomingNotification()),
+              (UpcomingNotification.display == true && UpcomingNotification.time.isNotEmpty) ?  SizedBox(height: UpcomingNotification.time.length > 1 ? (128.0 + (65 * (UpcomingNotification.time.length - 1))) : (128.0), child: const UpcomingNotification()) : const SizedBox(height: 95, child: UpcomingNotification()),
+            (UpcomingNotification.display == true && UpcomingNotification.time.isNotEmpty) ? const SizedBox(height: 10) : const SizedBox(height: 10),
             if(!isPressed | (isPressedRoute && isPressed))
               Column(
                 children: [

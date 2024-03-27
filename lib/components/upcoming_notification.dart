@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'cancellation_modal.dart';
 
 class UpcomingNotification extends StatefulWidget {
-  static String time = "";
-  static String destination = "";
+  static List<String> time = [];
+  static List<String> destination = [];
   static bool display = true;
 
   const UpcomingNotification({super.key});
@@ -49,96 +49,100 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
               ),
               const SizedBox(height: 12),
               if(UpcomingNotification.display == true && UpcomingNotification.time.isNotEmpty)
-                Row(
-                  children: [
-                    Material(
-                      elevation: 1,
-                      borderRadius: const BorderRadius.all(Radius.circular(16)),
-                      child: Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width - 28,
-                        height: 55.0,
-                        decoration: BoxDecoration(
-                            color: Colors.pink[100]!.withOpacity(0.6),
-                            border: Border.all(
-                              color: Colors.red.shade100,
-                            ),
-                            borderRadius: const BorderRadius.all(Radius
-                                .circular(16))
-                        ),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 12, right: 70),
-                              child: Text(
-                                //TODO: fill in w server shit
-                                UpcomingNotification.time,
-                                style: TextStyle(
-                                  color: Colors.grey.shade900,
-                                  fontFamily: 'Roboto-Medium',
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
+                for(int i = 0; i < UpcomingNotification.time.length; i ++)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      children: [
+                        Material(
+                          elevation: 1,
+                          borderRadius: const BorderRadius.all(Radius.circular(16)),
+                          child: Container(
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .width - 28,
+                            height: 55.0,
+                            decoration: BoxDecoration(
+                                color: Colors.pink[100]!.withOpacity(0.6),
+                                border: Border.all(
+                                  color: Colors.red.shade100,
                                 ),
-                              ),
+                                borderRadius: const BorderRadius.all(Radius
+                                    .circular(16))
                             ),
-                            Text(
-                              //TODO: fill in w server shit
-                              UpcomingNotification.destination,
-                              style: TextStyle(
-                                color: Colors.grey.shade900,
-                                fontFamily: 'Roboto-Medium',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            const Spacer(),
-                            ElevatedButton(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return const Dialog(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          CancellationModal(),
-                                        ],
-                                      ),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 12, right: 70),
+                                  child: Text(
+                                    //TODO: fill in w server shit
+                                    UpcomingNotification.time[i],
+                                    style: TextStyle(
+                                      color: Colors.grey.shade900,
+                                      fontFamily: 'Roboto-Medium',
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  //TODO: fill in w server shit
+                                  UpcomingNotification.destination[i],
+                                  style: TextStyle(
+                                    color: Colors.grey.shade900,
+                                    fontFamily: 'Roboto-Medium',
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                const Spacer(),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return const Dialog(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              CancellationModal(),
+                                            ],
+                                          ),
+                                        );
+                                      },
                                     );
                                   },
-                                );
-                              },
-                              style: ButtonStyle(
-                                minimumSize: MaterialStateProperty.all(
-                                    const Size(5, 30)),
-                                backgroundColor: MaterialStateProperty.all<
-                                    Color>(Colors.pink[100]!.withOpacity(0.1)),
-                                foregroundColor: MaterialStateProperty.all<
-                                    Color>(Colors.black),
-                                elevation: MaterialStateProperty.resolveWith<
-                                    double>((states) {
-                                  return 0.0;
-                                }),
-                              ),
-                              child:
-                              Text(
-                                'x',
-                                style: TextStyle(
-                                  color: Colors.red.shade900,
-                                  fontFamily: 'Roboto-Medium',
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w400,
+                                  style: ButtonStyle(
+                                    minimumSize: MaterialStateProperty.all(
+                                        const Size(5, 30)),
+                                    backgroundColor: MaterialStateProperty.all<
+                                        Color>(Colors.pink[100]!.withOpacity(0.1)),
+                                    foregroundColor: MaterialStateProperty.all<
+                                        Color>(Colors.black),
+                                    elevation: MaterialStateProperty.resolveWith<
+                                        double>((states) {
+                                      return 0.0;
+                                    }),
+                                  ),
+                                  child:
+                                  Text(
+                                    'x',
+                                    style: TextStyle(
+                                      color: Colors.red.shade900,
+                                      fontFamily: 'Roboto-Medium',
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
                 ),
              if(UpcomingNotification.display == false | UpcomingNotification.time.isEmpty)
                   Text(
@@ -148,7 +152,7 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
                       fontFamily: 'Roboto-Medium',
                       fontSize: 15.5,
                     ),
-                )
+                ),
             ],
           ),
         ),
