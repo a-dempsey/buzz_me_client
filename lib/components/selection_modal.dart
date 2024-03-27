@@ -104,9 +104,14 @@ class _SelectionModalState extends State<SelectionModal> {
                         UpcomingNotification.display = true;
                         DateTime routeTime = DateFormat('HH:mm').parse(NearestRoutes.time);
                         final time = routeTime.add(Duration(minutes: _mins.minute));
-                        UpcomingNotification.time.add(("${time.hour}:${time.minute}"));
+                        if(time.minute > 0 && time.minute < 10) {
+                          UpcomingNotification.time.add(("${time.hour}:0${time.minute}"));
+                        } else {
+                          UpcomingNotification.time.add(("${time.hour}:${time.minute}"));
+                        }
+                        UpcomingNotification.time.sort();
                         UpcomingNotification.destination.add(NearestRoutes.destination);
-                        print(UpcomingNotification.time);
+                        
                       });
                       Navigator.pushReplacement(context, PageRouteBuilder(
                         pageBuilder: (context, animation1, animation2) => const NavScreen(),
