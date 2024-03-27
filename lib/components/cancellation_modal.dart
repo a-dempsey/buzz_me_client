@@ -81,7 +81,8 @@ class _CancellationModalState extends State<CancellationModal> {
                         onPressed: () {
                           CancellationToast.showCancellationToast(context);
                           setState(() {
-                            UpcomingNotification.display = false;
+                            //print(UpcomingNotification.time.indexOf());
+                            UpcomingNotification.time.removeAt(UpcomingNotification.index);
                           });
                           Navigator.pop(context);
                           Navigator.pushReplacement(context, PageRouteBuilder(

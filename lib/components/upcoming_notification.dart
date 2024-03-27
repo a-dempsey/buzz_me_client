@@ -6,6 +6,7 @@ class UpcomingNotification extends StatefulWidget {
   static List<String> time = [];
   static List<String> destination = [];
   static bool display = true;
+  static int index = 0;
 
   const UpcomingNotification({super.key});
   @override
@@ -50,6 +51,7 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
               const SizedBox(height: 12),
               if(UpcomingNotification.display == true && UpcomingNotification.time.isNotEmpty)
                 for(int i = 0; i < UpcomingNotification.time.length; i ++)
+
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: Row(
@@ -100,6 +102,7 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
                                 const Spacer(),
                                 ElevatedButton(
                                   onPressed: () {
+                                    UpcomingNotification.index = UpcomingNotification.time.indexOf(UpcomingNotification.time[i]);
                                     showDialog(
                                       context: context,
                                       builder: (context) {
