@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:time_picker_spinner_pop_up/time_picker_spinner_pop_up.dart';
 import '../screens/nav_screen.dart';
 import 'nearest_routes.dart';
+import 'package:intl/intl.dart';
+
 class SelectionModal extends StatefulWidget {
 
   const SelectionModal({super.key});
@@ -100,7 +102,9 @@ class _SelectionModalState extends State<SelectionModal> {
                       Navigator.pop(context);
                       setState(() {
                         UpcomingNotification.display = true;
-                        UpcomingNotification.time = NearestRoutes.time;
+                        DateTime routeTime = DateFormat('HH:mm').parse(NearestRoutes.time);
+                        final time = routeTime.add(Duration(minutes: _mins.minute));
+                        UpcomingNotification.time =  ("${time.hour}:${time.minute}");
                         UpcomingNotification.destination = NearestRoutes.destination;
                       });
                       Navigator.pushReplacement(context, PageRouteBuilder(
