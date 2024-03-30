@@ -25,6 +25,11 @@ class _MapScreenState extends State<MapScreen> {
   Set<double> lat = {};
   Set<double> lng = {};
 
+  @override
+  void dispose(){
+    super.dispose();
+  }
+
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
   }
