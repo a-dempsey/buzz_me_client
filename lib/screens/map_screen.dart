@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:core';
 import 'dart:ui';
+import 'package:buzz_me/screens/nav_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -24,6 +25,7 @@ class _MapScreenState extends State<MapScreen> {
   Set<String> stopName = {};
   Set<double> lat = {};
   Set<double> lng = {};
+
 
   @override
   void dispose(){
@@ -104,6 +106,7 @@ class _MapScreenState extends State<MapScreen> {
           getStations();
         }},
     );
+
   }
 
 
