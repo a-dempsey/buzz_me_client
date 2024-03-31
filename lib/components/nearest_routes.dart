@@ -1,16 +1,39 @@
 import 'package:buzz_me/components/selection_modal.dart';
+import 'package:buzz_me/routes/bus_routes.dart';
 import 'package:flutter/material.dart';
 
 class NearestRoutes extends StatefulWidget {
   const NearestRoutes({super.key});
-  static String time = "13:30";
-  static String destination = "Main Campus";
+  static String time = "";
+  static String to = "";
+  static String from = "";
+
+  // static String time = ("${DateTime.now().hour}:${DateTime.now().minute}");
+  // static String destination = "Main Campus";
 
   @override
   State<NearestRoutes> createState() => _NearestRoutesState();
 }
 
 class _NearestRoutesState extends State<NearestRoutes> {
+
+  @override
+  void initState(){
+    super.initState();
+    getRoutes(
+      onFailureCallback: () {
+        print("ERR: didn'/t get stops");
+      },
+      onSuccessCallback: (List<BusRoute> nearestRoutes) {
+        for (var route in nearestRoutes) {
+          NearestRoutes.time = route.time;
+          NearestRoutes.to = route.to;
+          NearestRoutes.from = route.from;
+        }},
+    );
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -36,9 +59,8 @@ class _NearestRoutesState extends State<NearestRoutes> {
                   child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 12, right: 70),
+                        padding: const EdgeInsets.only(left: 12, right: 40),
                         child: Text(
-                          //TODO: fill in w server shit
                           NearestRoutes.time,
                           style: TextStyle(
                             color: Colors.grey.shade900,
@@ -49,12 +71,11 @@ class _NearestRoutesState extends State<NearestRoutes> {
                         ),
                       ),
                       Text(
-                        //TODO: fill in w server shit
-                        NearestRoutes.destination,
+                        "${NearestRoutes.from} -> ${NearestRoutes.to}",
                         style: TextStyle(
                           color: Colors.grey.shade900,
                           fontFamily: 'Roboto-Medium',
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
