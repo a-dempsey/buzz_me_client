@@ -1,3 +1,5 @@
+import 'package:buzz_me/components/search_bar.dart';
+import 'package:buzz_me/routes/get_routes.dart';
 import 'package:flutter/material.dart';
 
 class RouteDropdown extends StatefulWidget {
@@ -8,10 +10,30 @@ class RouteDropdown extends StatefulWidget {
 }
 
 class _RouteDropdownState extends State<RouteDropdown> {
-  static const List<String> list = <String>['-- unselect route --', 'route one', 'route 2', 'route 3'];
+  static const List<String> list = <String>['-- unselect route --', 'Pouladuff', 'Brookfield', 'UCC Main Campus', 'Lee Maltings'];
   String dropdownValue = list.first;
   bool selected = false;
   bool opened = false;
+
+  @override
+  void initState(){
+    super.initState();
+    // getRoutes(
+    //   onFailureCallback: () {
+    //     print("ERR: didn'/t get routes");
+    //   },
+    //   onSuccessCallback: (Map<String, List<dynamic>> routesList) {
+    //     for (var route in routesList.values) {
+    //       lista.add(route);
+    //       print(lista);
+    //       // print(LocationSearchBar.current);
+    //     }
+    //     for (var route in routesList.keys) {
+    //       key.add(route);
+    //     }},
+    // );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -73,20 +95,23 @@ class _RouteDropdownState extends State<RouteDropdown> {
                 return list.map<PopupMenuItem<String>>((String value) {
                   return PopupMenuItem<String>(
                     value: value,
-                    child: SizedBox(width: MediaQuery.of(context).size.width ,
-                        child: Text(
-                          value,
-                          style: TextStyle(
+                    child: SizedBox(width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
+                      child: Text(
+                        value,
+                        style: TextStyle(
                             fontFamily: 'Roboto-Medium',
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
                             color: Colors.grey[700]
-                          ),
                         ),
+                      ),
                     ),
                   );
                 }).toList();
-                },
+              }
               )
             ),
           ),
