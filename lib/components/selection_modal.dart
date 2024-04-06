@@ -1,14 +1,20 @@
+import 'dart:async';
+
 import 'package:buzz_me/components/confirmation_toast.dart';
 import 'package:buzz_me/components/upcoming_notification.dart';
+import 'package:buzz_me/screens/timetable_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:time_picker_spinner_pop_up/time_picker_spinner_pop_up.dart';
+import '../notifications/notifications.dart';
 import '../screens/nav_screen.dart';
 import 'nearest_routes.dart';
 import 'package:intl/intl.dart';
+import 'package:hotreloader/hotreloader.dart';
 
 class SelectionModal extends StatefulWidget {
-
+  static String from = "";
+  static String time = "";
   const SelectionModal({super.key});
   @override
   State<SelectionModal> createState() => _SelectionModalState();
@@ -17,6 +23,135 @@ class SelectionModal extends StatefulWidget {
 class _SelectionModalState extends State<SelectionModal> {
   static DateTime _mins = DateTime(0);
   bool showNotification = false;
+  bool delivered = false;
+  bool check = false;
+  Timer? _notificationTimer;
+
+  bool _notificationDelivered = false;
+  int len = 0;
+  int counter = 0;
+
+  // Future<void> _setNotification(int hour, int minute) async {
+  //   final deliverNotification = DateTime(hour, minute).difference(DateTime.now());
+  //
+  //   Timer.periodic(deliverNotification, (Timer timer) async {
+  //     if (hour == DateTime.now().hour && minute == DateTime.now().minute) {
+  //       final localNotificationService = LocalNotificationService();
+  //       await localNotificationService.showLocalNotification(
+  //         'Buzz Me',
+  //         'Your bus is due to arrive in ${_mins.minute} minutes',
+  //       );
+  //       timer.cancel();
+  //       delivered = true;
+  //     }
+  //   });
+  // }
+
+
+  bool _notificationInProgress = false;
+
+  Future<void> _setNotification(int hour, int minute) async {
+    final now = DateTime.now();
+    final scheduledTime = DateTime(now.year, now.month, now.day, hour, minute);
+
+    final delay = scheduledTime.difference(now);
+    if (delay.isNegative) {
+      // If the scheduled time is in the past, don't schedule the notification
+      return;
+    }
+
+    _notificationInProgress = true;
+
+    _notificationTimer = Timer(delay, () async {
+      final localNotificationService = LocalNotificationService();
+      await localNotificationService.showLocalNotification(
+        'Buzz Me',
+        'Your bus is due to arrive in ${_mins.minute} minutes',
+      );
+      _notificationTimer?.cancel();
+      print(UpcomingNotification.index);
+      _removeNotification(UpcomingNotification.index);
+      _notificationInProgress = false; // Notification task completed
+    });
+  }
+  //
+  // void _cancelNotificationTimer() {
+  //   _notificationTimer?.cancel();
+    // setState(() {
+    //   UpcomingNotification.time.removeAt(UpcomingNotification.index);
+    // });
+    // Navigator.pushReplacement(context, PageRouteBuilder(
+    //        pageBuilder: (context, animation1, animation2) => const NavScreen(),
+    //        transitionDuration: Duration.zero,
+    //        reverseTransitionDuration: Duration.zero,
+    //      ),);
+
+    //_checkDelivered();
+  // }
+
+  // @override
+  // void dispose() {
+  //   if (_notificationInProgress) {
+  //     _checkDelivered();
+  //     print("yargh");
+  //     // Wait for notification task to complete before disposing
+  //    // WidgetsBinding.instance!.addPostFrameCallback((_) => dispose()); // Try again after a frame
+  //     return;
+  //   }
+  //   print("NAR");
+  //   _cancelNotificationTimer(); // Cancel the timer when the widget is disposed
+  //   super.dispose(); // Call super.dispose() to release resources
+  // }
+  //
+  // Future<void> _checkDelivered() async {
+  //
+  //   while(_notificationInProgress == true){
+  //     await Future.delayed(const Duration(seconds: 1));
+  //   }
+  //   if(_notificationInProgress == false) {
+  //     _removeNotification();
+  //   }
+  //
+  // }
+  //
+  // Future<void> _removeNotification() async {
+  //   //if(!mounted){return;}
+  //   if(UpcomingNotification.time.isNotEmpty) {
+  //     print("a");
+  //     setState(() {
+  //       UpcomingNotification.time.removeAt(UpcomingNotification.index);
+  //     });
+  //
+  //      //  Navigator.pushReplacement(context, PageRouteBuilder(
+  //      //    pageBuilder: (context, animation1, animation2) => const NavScreen(),
+  //      //    transitionDuration: Duration.zero,
+  //      //    reverseTransitionDuration: Duration.zero,
+  //      //  ),);
+  //
+  //   }
+  //   print("c");
+  //
+  //   delivered = false;
+  // }
+  @override
+  Future<void> dispose() async {
+    while (_notificationInProgress) {
+      await Future.delayed(const Duration(seconds: 1));
+    }
+    //_notificationTimer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _removeNotification(int index) async {
+    if (mounted) {
+      setState(() {
+        UpcomingNotification.time.removeAt(index);
+      });
+
+    }
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +198,7 @@ class _SelectionModalState extends State<SelectionModal> {
               TimePickerSpinnerPopUp(
                 mode: CupertinoDatePickerMode.time,
                 initTime: DateTime.parse("0000-00-00 00:00:00"),
-                maxTime: DateTime(0).add(const Duration(minutes: 59)),
+                maxTime: DateTime(0).add(const Duration(hours: 0, minutes: 29)),
                 timeFormat: 'H:mm',
                 onChange: (DateTime value) {
                     _mins = value;
@@ -100,18 +235,30 @@ class _SelectionModalState extends State<SelectionModal> {
                   ElevatedButton(
                     onPressed: () async {
                       Navigator.pop(context);
+
                       setState(() {
                         UpcomingNotification.display = true;
-                        DateTime routeTime = DateFormat('HH:mm').parse(NearestRoutes.time);
-                        final time = routeTime.add(Duration(minutes: _mins.minute));
-                        if(time.minute > 0 && time.minute < 10) {
+                       DateTime routeTime = DateFormat('HH:mm').parse(SelectionModal.time);
+                       // DateTime routeTime = DateTime.thursday as DateTime;
+                        final time = routeTime.subtract(Duration(minutes: _mins.minute));
+                        if(time.minute >= 0 && time.minute < 10) {
                           UpcomingNotification.time.add(("${time.hour}:0${time.minute}"));
-                        } else {
+                        } else if(time.hour >= 0 && time.hour < 10) {
+                          UpcomingNotification.time.add(("0${time.hour}:${time.minute}"));
+                        } else if((time.hour >= 0 && time.minute >= 0) && (time.hour < 10 && time.minute < 10)) {
+                          UpcomingNotification.time.add(("0${time.hour}:0${time.minute}"));
+                        }
+                        else {
                           UpcomingNotification.time.add(("${time.hour}:${time.minute}"));
                         }
                         UpcomingNotification.time.sort();
-                        UpcomingNotification.destination.add(NearestRoutes.destination);
-                        
+                        UpcomingNotification.destination.add(SelectionModal.from);
+                       // UpcomingNotification.index = UpcomingNotification.time.indexOf("${time.hour}:${time.minute}");
+                        _setNotification(time.hour, time.minute);
+
+                        // if(UpcomingNotification.time.isNotEmpty) {
+                        //   _checkDelivered();
+                        // }
                       });
                       Navigator.pushReplacement(context, PageRouteBuilder(
                         pageBuilder: (context, animation1, animation2) => const NavScreen(),

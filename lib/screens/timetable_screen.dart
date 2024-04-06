@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../components/nearest_routes.dart';
+import '../components/selection_modal.dart';
 import '../routes/get_routes.dart';
 
 class TimetableScreen extends StatefulWidget {
@@ -131,7 +132,11 @@ class _TimetableScreenState extends State<TimetableScreen> {
                               } else if((hours >= 0 && mins >= 0) && (hours < 10 && mins < 10)) {
                                 time = "0$hours:0$mins";
                               }
+                              SelectionModal.time = time;
                               vals.add(val);
+
+                              print("LOOK HERE");
+                              print(vals[0].length);
                             }
                             });
                             if(!vals[0][0].contains(RouteDropdown.selectedValue)){
@@ -144,12 +149,14 @@ class _TimetableScreenState extends State<TimetableScreen> {
                               TimetableScreen.showRoutes = true;
                               noRoutes = false;
                               dest = RouteDropdown.selectedValue;
+                              SelectionModal.from = "${LocationSearchBar.currentKey} -> $dest";
                             }
                             if(LocationSearchBar.currentKey.isNotEmpty && RouteDropdown.selectedValue == ""){
                               TimetableScreen.isAvailable = true;
                               TimetableScreen.showRoutes = true;
                               noRoutes = false;
                               dest = vals[0][0].last;
+                              SelectionModal.from = "${LocationSearchBar.currentKey} -> $dest";
                             }
                           } else {
                             noRoutes = true;

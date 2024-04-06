@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:buzz_me/notifications/notifications.dart';
 import 'cancellation_modal.dart';
 
 class UpcomingNotification extends StatefulWidget {
@@ -51,7 +51,6 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
               const SizedBox(height: 12),
               if(UpcomingNotification.display == true && UpcomingNotification.time.isNotEmpty)
                 for(int i = 0; i < UpcomingNotification.time.length; i ++)
-
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: Row(
@@ -77,9 +76,8 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 12, right: 70),
+                                      left: 12, right: 50),
                                   child: Text(
-                                    //TODO: fill in w server shit
                                     UpcomingNotification.time[i],
                                     style: TextStyle(
                                       color: Colors.grey.shade900,
@@ -89,14 +87,15 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
                                     ),
                                   ),
                                 ),
-                                Text(
-                                  //TODO: fill in w server shit
-                                  UpcomingNotification.destination[i],
-                                  style: TextStyle(
-                                    color: Colors.grey.shade900,
-                                    fontFamily: 'Roboto-Medium',
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w400,
+                                SizedBox(width: 180,
+                                  child: Text(
+                                    UpcomingNotification.destination[i],
+                                    style: TextStyle(
+                                      color: Colors.grey.shade900,
+                                      fontFamily: 'Roboto-Medium',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   ),
                                 ),
                                 const Spacer(),
@@ -146,8 +145,9 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
                         ),
                       ],
                     ),
+
                 ),
-             if(UpcomingNotification.display == false | UpcomingNotification.time.isEmpty)
+              if(UpcomingNotification.display == false | UpcomingNotification.time.isEmpty)
                   Text(
                     "You don't have any upcoming notifications at this time",
                     style: TextStyle(

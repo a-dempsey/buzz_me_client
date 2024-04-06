@@ -1,5 +1,5 @@
 import 'package:buzz_me/components/selection_modal.dart';
-import 'package:buzz_me/routes/bus_routes.dart';
+import 'package:buzz_me/routes/nearest_routes.dart';
 import 'package:flutter/material.dart';
 
 class NearestRoutes extends StatefulWidget {
@@ -82,6 +82,8 @@ class _NearestRoutesState extends State<NearestRoutes> {
                       const Spacer(),
                       ElevatedButton(
                         onPressed: () {
+                          SelectionModal.from = "${NearestRoutes.from} -> ${NearestRoutes.to}";
+                          SelectionModal.time = NearestRoutes.time;
                             showDialog(
                               context: context,
                               builder: (context) {

@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 
 class AvailableRoutes extends StatelessWidget {
   final String to;
-  const AvailableRoutes({super.key, required this.to});
+  final String time;
+  const AvailableRoutes({super.key, required this.to, required this.time});
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +34,9 @@ class AvailableRoutes extends StatelessWidget {
                   child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 12, right: 40),
+                        padding: const EdgeInsets.only(left: 12, right: 35),
                         child: Text(
-                          "",
-                          //AvailableRoutes.time,
+                          time,
                           style: TextStyle(
                             color: Colors.grey.shade900,
                             fontFamily: 'Roboto-Medium',
@@ -46,15 +46,18 @@ class AvailableRoutes extends StatelessWidget {
                         ),
                       ),
 
-                      Text(
+                    SizedBox(width: 180,
+                      child: Text(
                         "${LocationSearchBar.currentKey} -> $to",
+                        overflow: TextOverflow.fade,
                         style: TextStyle(
                           color: Colors.grey.shade900,
                           fontFamily: 'Roboto-Medium',
-                          fontSize: 14,
+                          fontSize: 15,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
+                    ),
                       const Spacer(),
                       ElevatedButton(
                         onPressed: () {
