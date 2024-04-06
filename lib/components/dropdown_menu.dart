@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class RouteDropdown extends StatefulWidget {
   const RouteDropdown({super.key});
+  static String selectedValue = "";
 
   @override
   State<RouteDropdown> createState() => _RouteDropdownState();
@@ -77,6 +78,7 @@ class _RouteDropdownState extends State<RouteDropdown> {
               onSelected: (String value) {
                 setState(() {
                   dropdownValue = value;
+                  RouteDropdown.selectedValue = dropdownValue;
                   selected = true;
                   opened = false;
                 });

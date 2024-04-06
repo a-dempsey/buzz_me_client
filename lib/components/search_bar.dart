@@ -1,7 +1,15 @@
+import 'package:buzz_me/components/available_routes.dart';
+import 'package:buzz_me/stops/bus_stops.dart';
 import 'package:flutter/material.dart';
+
+import '../routes/get_routes.dart';
+import '../screens/timetable_screen.dart';
+import '../stops/get_stops.dart';
+import 'dropdown_menu.dart';
 
 class LocationSearchBar extends StatefulWidget {
   const LocationSearchBar({super.key});
+  static String currentKey = "";
 
   @override
   State<LocationSearchBar> createState() => _LocationSearchBarState();
@@ -11,12 +19,21 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
   static bool hasText = false;
   TextEditingController locationTextController = TextEditingController();
   OverlayEntry? locationContainer;
-  final List<String> locations = [
-    'Pouladuff Road',
-    'Dennehy\'s Cross',
-    'Black Ash',
-    'Brookfield'
-  ];
+  List<String> locations = [];
+
+  @override
+  void initState(){
+    super.initState();
+    getRoutes(
+      onFailureCallback: () {
+        print("ERR: didn'/t get stops");
+      },
+      onSuccessCallback: (Map<String, List<dynamic>> routesList) {
+        for (var stop in routesList.keys) {
+          locations.add(stop);
+        }},
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +85,7 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
               onTap: () {},
               onChanged: (locationText) {
                 setState(() {
+
                   hasText = locationText.isNotEmpty;
                   List<String> results = [];
                   if (locationText.isNotEmpty) {
@@ -81,8 +99,8 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
                     locationContainer?.remove();
                     locationContainer = OverlayEntry(
                       builder: (BuildContext overlayContext) => Positioned(
-                        top: MediaQuery.of(context).size.height * 0.22,
-                        left: 20.0,
+                        top: MediaQuery.of(context).size.height * 0.32,
+                        left: 10.0,
                         right: 20.0,
                         child: Card(
                           elevation: 0,
@@ -98,6 +116,8 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
                                       locationContainer?.remove();
                                       locationContainer = null;
                                       FocusScope.of(context).unfocus();
+                                      LocationSearchBar.currentKey = stop;
+                                      print(LocationSearchBar.currentKey);
                                     },
                                   ),
                               ],
