@@ -1,24 +1,55 @@
+import 'package:buzz_me/components/available_routes.dart';
 import 'package:buzz_me/components/dropdown_menu.dart';
 import 'package:buzz_me/components/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../components/nearest_routes.dart';
+import '../routes/get_routes.dart';
 
 class TimetableScreen extends StatefulWidget {
   const TimetableScreen({super.key});
+  static bool isAvailable = false;
+  static bool showRoutes = false;
 
   @override
   State<TimetableScreen> createState() => _TimetableScreenState();
 }
 
 class _TimetableScreenState extends State<TimetableScreen> {
-  bool isAvailable = false;
-  bool showRoutes = false;
+  bool noRoutes = false;
+  final Map<String, List<dynamic>> routes = {};
+  final Map<String, List<dynamic>> times = {};
+  String dest = "";
+  String time = "";
 
   @override
   void initState(){
     super.initState();
+
+    getRoutes(
+      onFailureCallback: () {
+        print("ERR: didn'/t get routes");
+      },
+      onSuccessCallback: (Map<String, List<dynamic>> routesList, timeList) {
+        for (var key in routesList.keys) {
+            if(!routes.containsKey(key)) {
+              routes[key] = [];
+            }
+            if (routes.containsKey(key)) {
+              routes[key]?.add(routesList[key]);
+            }
+        }
+        for (var key in timeList.keys) {
+          if(!times.containsKey(key)) {
+            times[key] = [];
+          }
+          if (times.containsKey(key)) {
+            times[key]?.add(timeList[key]);
+          }
+        }
+      }
+    );
   }
 
   @override
@@ -85,9 +116,44 @@ class _TimetableScreenState extends State<TimetableScreen> {
                       shape: RoundedRectangleBorder(side: BorderSide(width: 1, color: Colors.pink[100]!.withOpacity(0.7),),borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
-                          // TODO: change to match w names
-                          isAvailable = !isAvailable;
-                          showRoutes = true;
+                          List<dynamic> vals = [];
+                          if(routes.containsKey(LocationSearchBar.currentKey)){
+                            routes.forEach((key, val){
+                            if(key == LocationSearchBar.currentKey){
+                              int t = times[LocationSearchBar.currentKey]![0][0];
+                              final hours = t ~/ 3600;
+                              final r = t % 3600;
+                              final mins = r ~/ 60;
+                              if(mins >= 0 && mins< 10) {
+                                time = "$hours:0$mins";
+                              } else if(hours >= 0 && hours < 10) {
+                                time = "0$hours:$mins";
+                              } else if((hours >= 0 && mins >= 0) && (hours < 10 && mins < 10)) {
+                                time = "0$hours:0$mins";
+                              }
+                              vals.add(val);
+                            }
+                            });
+                            if(!vals[0][0].contains(RouteDropdown.selectedValue)){
+                              noRoutes = true;
+                              TimetableScreen.isAvailable = false;
+                              TimetableScreen.showRoutes = false;
+                            }
+                            if(LocationSearchBar.currentKey.isNotEmpty && RouteDropdown.selectedValue != "" && vals[0][0].contains(RouteDropdown.selectedValue)){
+                              TimetableScreen.isAvailable = true;
+                              TimetableScreen.showRoutes = true;
+                              noRoutes = false;
+                              dest = RouteDropdown.selectedValue;
+                            }
+                            if(LocationSearchBar.currentKey.isNotEmpty && RouteDropdown.selectedValue == ""){
+                              TimetableScreen.isAvailable = true;
+                              TimetableScreen.showRoutes = true;
+                              noRoutes = false;
+                              dest = vals[0][0].last;
+                            }
+                          } else {
+                            noRoutes = true;
+                          }
                       },);},
                       child: const Text(
                       'Search',
@@ -101,7 +167,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                     ),
                   ),
                   const SizedBox(height: 25),
-                  if(showRoutes)
+                  if(TimetableScreen.showRoutes)
                     const Text(
                       'Available routes',
                       style: TextStyle(
@@ -112,7 +178,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                       ),
                     ),
                   const SizedBox(height: 13.5),
-                  if(!isAvailable)
+                  if(noRoutes)
                     const Align(
                       alignment: Alignment.center,
                       child: Text(
@@ -125,8 +191,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                         ),
                       ),
                     ),
-                 //
-                  if(isAvailable)
+                  if(TimetableScreen.isAvailable)
                     Material(
                       elevation: 1,
                       shape: const RoundedRectangleBorder(
@@ -143,10 +208,10 @@ class _TimetableScreenState extends State<TimetableScreen> {
                         borderRadius: const BorderRadius.all(Radius
                             .circular(16)),
                         ),
-                        child: const Column(
+                        child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            NearestRoutes(),
+                            AvailableRoutes(to: dest, time: time,),
                           ],
                         ),
                     ),
