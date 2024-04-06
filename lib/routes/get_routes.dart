@@ -5,19 +5,22 @@ import 'package:http/http.dart' as http;
 
 class Routes {
   final Map<String, List<String>> routes; // intermediate stops
+  final String time;
 
   Routes({
     required this.routes,
+    required this.time,
   });
 }
 
 Future<void> getRoutes({
   required void Function() onFailureCallback,
-  required void Function(Map<String, List<dynamic>>) onSuccessCallback,
+  required void Function(Map<String, List<dynamic>>, Map<String, List<dynamic>>) onSuccessCallback,
 
 }) async {
   try {
     final Map<String, List<dynamic>> routesList = {};
+    final Map<String, List<dynamic>> timeList = {};
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       Future<String?> getToken() async {
@@ -42,18 +45,27 @@ Future<void> getRoutes({
               if(!routesList.containsKey(routesList[parsed[k]['name']].toString())) {
                 routesList[parsed[k]['name']] = [];
               }
+              if(!timeList.containsKey(timeList[parsed[k]['name']].toString())) {
+                timeList[parsed[k]['name']] = [];
+              }
               for(int i = 0; i < parsed[k]['route_timeslots'][0]['to'].length; i++) {
                 if (k == 1){
                   routesList[parsed[k]['name']]!.add([parsed[k]['route_timeslots'][0]['to'][i]['name'], parsed[k]['route_timeslots'][1]['to'][i]['name']]);
                 }else {
                   routesList[parsed[k]['name']]!.add(parsed[k]['route_timeslots'][0]['to'][i]['name']);
-                }}
-
+                 }}
                 }
-            onSuccessCallback(routesList);
+            for(int i = 0; i < routesList.length; i ++){
+              if (i == 1){
+                timeList[parsed[i]['name']]!.add([parsed[i]['route_timeslots'][0]['time'], parsed[i]['route_timeslots'][1]['time']]);
+              }else {
+                timeList[parsed[i]['name']]!.add(
+                    parsed[i]['route_timeslots'][0]['time']);
+              }
+            }
+            onSuccessCallback(routesList, timeList);
           }} catch (e) {
           print(e);
-          print(routesList);
           onFailureCallback();
         }}}
   }
