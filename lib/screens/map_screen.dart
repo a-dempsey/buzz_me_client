@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:custom_info_window/custom_info_window.dart';
 
+import '../components/selection_modal.dart';
 import '../stops/bus_stops.dart';
 
 class MapScreen extends StatefulWidget {
@@ -25,6 +27,7 @@ class _MapScreenState extends State<MapScreen> {
   Set<String> stopName = {};
   Set<double> lat = {};
   Set<double> lng = {};
+  CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
 
 
   @override
@@ -34,6 +37,7 @@ class _MapScreenState extends State<MapScreen> {
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
+    _customInfoWindowController.googleMapController = controller;
   }
 
   Future<void> getCurrentLocation() async {
@@ -57,10 +61,84 @@ class _MapScreenState extends State<MapScreen> {
         Marker(
           markerId: MarkerId(i.toString()),
           position: LatLng(lat.elementAt(i), lng.elementAt(i)),
-          infoWindow: InfoWindow(
-            title: stopName.elementAt(i),
-          ),
+          // infoWindow: InfoWindow(
+          //   title: stopName.elementAt(i),
+          // ),
           icon: BitmapDescriptor.fromBytes(markerIcon!),
+          onTap: (){
+            _customInfoWindowController.addInfoWindow!(Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.green[50],
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.4),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Text(
+                              stopName.elementAt(i),
+                              style: TextStyle(
+                                color: Colors.grey[800],
+                                fontFamily: 'Roboto-Medium',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const Dialog(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        SelectionModal(),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(side: BorderSide(width: 1, color: Colors.pink[100]!.withOpacity(0.7),),borderRadius: BorderRadius.circular(12))),
+                            minimumSize: MaterialStateProperty.all(const Size(5, 30)),
+                            backgroundColor: MaterialStateProperty.all<Color>(Colors.pink[300]!.withOpacity(0.8)),
+                            foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                            elevation: MaterialStateProperty.resolveWith<double>((states) {
+                              return 0.0;
+                            }),
+                          ), child: const Text(
+                            'Show Routes',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Roboto-Medium',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),),
+                        ],
+                      ),
+                    ),
+                  ),
+              ],
+            ), LatLng(lat.elementAt(i), lng.elementAt(i)));
+          }
         ),
       );
     }
@@ -106,9 +184,7 @@ class _MapScreenState extends State<MapScreen> {
           getStations();
         }},
     );
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +201,19 @@ class _MapScreenState extends State<MapScreen> {
                 target: _location,
                 zoom: 15.0,
               ),
+              onCameraMove: (position) {
+                _customInfoWindowController.onCameraMove!();
+              },
+              onTap: (position) {
+                _customInfoWindowController.hideInfoWindow!();
+              },
             ),
+          ),
+          CustomInfoWindow(
+            controller: _customInfoWindowController,
+            height: 75,
+            width: 150,
+            offset: 50,
           ),
         ],
       ),
