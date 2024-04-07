@@ -10,6 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 
 import '../components/selection_modal.dart';
+import '../components/upcoming_notification.dart';
 import '../routes/get_routes.dart';
 import '../stops/bus_stops.dart';
 
@@ -126,7 +127,10 @@ class _MapScreenState extends State<MapScreen> {
                                     vals.add(val);
                                   }
                                 });
+
                                   MapScreen.dest = vals[0][0].last;
+                                  SelectionModal.time = time;
+                                  UpcomingNotification.destination.add("${MapScreen.selected} -> ${MapScreen.dest}");
                               }
                               showDialog(
                                 context: context,
