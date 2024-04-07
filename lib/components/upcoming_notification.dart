@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:buzz_me/notifications/notifications.dart';
 import 'cancellation_modal.dart';
 
 class UpcomingNotification extends StatefulWidget {
@@ -145,7 +144,6 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
                         ),
                       ],
                     ),
-
                 ),
               if(UpcomingNotification.display == false | UpcomingNotification.time.isEmpty)
                   Text(

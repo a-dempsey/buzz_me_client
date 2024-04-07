@@ -1,7 +1,6 @@
-import 'package:buzz_me/components/dropdown_menu.dart';
 import 'package:buzz_me/components/search_bar.dart';
 import 'package:buzz_me/components/selection_modal.dart';
-import 'package:buzz_me/routes/nearest_routes.dart';
+import 'package:buzz_me/screens/timetable_screen.dart';
 import 'package:flutter/material.dart';
 
 class AvailableRoutes extends StatelessWidget {
@@ -36,7 +35,7 @@ class AvailableRoutes extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 12, right: 35),
                         child: Text(
-                          time,
+                          SelectionModal.time,
                           style: TextStyle(
                             color: Colors.grey.shade900,
                             fontFamily: 'Roboto-Medium',
@@ -45,10 +44,9 @@ class AvailableRoutes extends StatelessWidget {
                           ),
                         ),
                       ),
-
                     SizedBox(width: 180,
                       child: Text(
-                        "${LocationSearchBar.currentKey} -> $to",
+                        "${LocationSearchBar.currentKey} -> ${TimetableScreen.dest}",
                         overflow: TextOverflow.fade,
                         style: TextStyle(
                           color: Colors.grey.shade900,

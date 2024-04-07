@@ -12,6 +12,7 @@ class TimetableScreen extends StatefulWidget {
   const TimetableScreen({super.key});
   static bool isAvailable = false;
   static bool showRoutes = false;
+  static String dest = "";
 
   @override
   State<TimetableScreen> createState() => _TimetableScreenState();
@@ -21,7 +22,6 @@ class _TimetableScreenState extends State<TimetableScreen> {
   bool noRoutes = false;
   final Map<String, List<dynamic>> routes = {};
   final Map<String, List<dynamic>> times = {};
-  String dest = "";
   String time = "";
 
   @override
@@ -148,15 +148,15 @@ class _TimetableScreenState extends State<TimetableScreen> {
                               TimetableScreen.isAvailable = true;
                               TimetableScreen.showRoutes = true;
                               noRoutes = false;
-                              dest = RouteDropdown.selectedValue;
-                              SelectionModal.from = "${LocationSearchBar.currentKey} -> $dest";
+                              TimetableScreen.dest = RouteDropdown.selectedValue;
+                              SelectionModal.from = "${LocationSearchBar.currentKey} -> ${TimetableScreen.dest}";
                             }
                             if(LocationSearchBar.currentKey.isNotEmpty && RouteDropdown.selectedValue == ""){
                               TimetableScreen.isAvailable = true;
                               TimetableScreen.showRoutes = true;
                               noRoutes = false;
-                              dest = vals[0][0].last;
-                              SelectionModal.from = "${LocationSearchBar.currentKey} -> $dest";
+                              TimetableScreen.dest = vals[0][0].last;
+                              SelectionModal.from = "${LocationSearchBar.currentKey} -> ${TimetableScreen.dest}";
                             }
                           } else {
                             noRoutes = true;
@@ -218,7 +218,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            AvailableRoutes(to: dest, time: time,),
+                            AvailableRoutes(to: TimetableScreen.dest, time: time),
                           ],
                         ),
                     ),

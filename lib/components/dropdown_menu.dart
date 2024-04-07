@@ -11,8 +11,8 @@ class RouteDropdown extends StatefulWidget {
 }
 
 class _RouteDropdownState extends State<RouteDropdown> {
-  static const List<String> list = <String>['-- unselect route --', 'Pouladuff', 'Brookfield', 'UCC Main Campus', 'Lee Maltings'];
-  String dropdownValue = list.first;
+  static const List<String> list = <String>['-- unselect destination --', 'Pouladuff', 'Brookfield', 'UCC Main Campus', 'Lee Maltings'];
+  String dropdownValue = "";
   bool selected = false;
   bool opened = false;
 
@@ -33,6 +33,11 @@ class _RouteDropdownState extends State<RouteDropdown> {
     //       key.add(route);
     //     }},
     // );
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
   }
 
   @override
@@ -62,7 +67,7 @@ class _RouteDropdownState extends State<RouteDropdown> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                       selected && dropdownValue != '-- unselect route --' ? dropdownValue : "Select a route",
+                        selected && RouteDropdown.selectedValue != '-- unselect destination --' ? RouteDropdown.selectedValue : (RouteDropdown.selectedValue != "" && RouteDropdown.selectedValue != '-- unselect destination --' ? RouteDropdown.selectedValue : "Select a destination"),
                         style: TextStyle(
                           fontFamily: 'Roboto-Medium',
                           fontSize: 16,

@@ -28,7 +28,7 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
       onFailureCallback: () {
         print("ERR: didn'/t get stops");
       },
-      onSuccessCallback: (Map<String, List<dynamic>> routesList) {
+      onSuccessCallback: (Map<String, List<dynamic>> routesList, timeList) {
         for (var stop in routesList.keys) {
           locations.add(stop);
         }},
@@ -44,7 +44,7 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
           builder: (BuildContext context, SearchController controller) {
             return SearchBar(
               elevation: const MaterialStatePropertyAll<double>(1.0),
-              hintText: "Search locations",
+              hintText: LocationSearchBar.currentKey == "" ? "Search locations" : LocationSearchBar.currentKey,
               hintStyle: MaterialStateProperty.all<TextStyle>(
                 const TextStyle(
                   fontFamily: 'Roboto-Medium',
@@ -85,7 +85,6 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
               onTap: () {},
               onChanged: (locationText) {
                 setState(() {
-
                   hasText = locationText.isNotEmpty;
                   List<String> results = [];
                   if (locationText.isNotEmpty) {
@@ -117,7 +116,6 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
                                       locationContainer = null;
                                       FocusScope.of(context).unfocus();
                                       LocationSearchBar.currentKey = stop;
-                                      print(LocationSearchBar.currentKey);
                                     },
                                   ),
                               ],
