@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:core';
 import 'dart:ui';
+import 'package:buzz_me/components/display_routes_modal.dart';
 import 'package:buzz_me/screens/nav_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,10 +10,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 
 import '../components/selection_modal.dart';
+import '../routes/get_routes.dart';
 import '../stops/bus_stops.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
+  static String selected = "";
+  static String dest = "";
+  static String time = "";
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -27,7 +32,10 @@ class _MapScreenState extends State<MapScreen> {
   Set<String> stopName = {};
   Set<double> lat = {};
   Set<double> lng = {};
-  CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
+  final CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
+  final Map<String, List<dynamic>> routes = {};
+  final Map<String, List<dynamic>> times = {};
+  String time = "";
 
 
   @override
@@ -61,9 +69,6 @@ class _MapScreenState extends State<MapScreen> {
         Marker(
           markerId: MarkerId(i.toString()),
           position: LatLng(lat.elementAt(i), lng.elementAt(i)),
-          // infoWindow: InfoWindow(
-          //   title: stopName.elementAt(i),
-          // ),
           icon: BitmapDescriptor.fromBytes(markerIcon!),
           onTap: (){
             _customInfoWindowController.addInfoWindow!(Column(
@@ -101,6 +106,28 @@ class _MapScreenState extends State<MapScreen> {
                           ),
                           ElevatedButton(
                             onPressed: () {
+                              MapScreen.selected = stopName.elementAt(i);
+                              List<dynamic> vals = [];
+                              if(routes.containsKey(MapScreen.selected)){
+                                routes.forEach((key, val){
+                                  if(key == MapScreen.selected){
+                                    int t = times[stopName.elementAt(i)]![0][0];
+                                    final hours = t ~/ 3600;
+                                    final r = t % 3600;
+                                    final mins = r ~/ 60;
+                                    if(mins >= 0 && mins< 10) {
+                                      time = "$hours:0$mins";
+                                    } else if(hours >= 0 && hours < 10) {
+                                      time = "0$hours:$mins";
+                                    } else if((hours >= 0 && mins >= 0) && (hours < 10 && mins < 10)) {
+                                      time = "0$hours:0$mins";
+                                    }
+                                    MapScreen.time = time;
+                                    vals.add(val);
+                                  }
+                                });
+                                  MapScreen.dest = vals[0][0].last;
+                              }
                               showDialog(
                                 context: context,
                                 builder: (context) {
@@ -108,7 +135,7 @@ class _MapScreenState extends State<MapScreen> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
-                                        SelectionModal(),
+                                        DisplayRoutesModal(),
                                       ],
                                     ),
                                   );
@@ -142,7 +169,7 @@ class _MapScreenState extends State<MapScreen> {
         ),
       );
     }
-    // Call setState to trigger a rebuild and update the markers on the map
+    //update markers
     setState(() {
       _onMapCreated;
     });
@@ -176,13 +203,36 @@ class _MapScreenState extends State<MapScreen> {
       },
       onSuccessCallback: (List<BusStop> stopsList) {
         for (var stop in stopsList) {
-          stopName.add(stop.name.toString());
           lat.add(stop.latitude.toDouble());
           lng.add(stop.longitude.toDouble());
           counter += 1;
           getMarkerIcon();
           getStations();
         }},
+    );
+    getRoutes(
+        onFailureCallback: () {
+          print("ERR: didn'/t get routes");
+        },
+        onSuccessCallback: (Map<String, List<dynamic>> routesList, timeList) {
+          for (var key in routesList.keys) {
+            if(!routes.containsKey(key)) {
+              routes[key] = [];
+              stopName.add(key);
+            }
+            if (routes.containsKey(key)) {
+              routes[key]?.add(routesList[key]);
+            }
+          }
+          for (var key in timeList.keys) {
+            if(!times.containsKey(key)) {
+              times[key] = [];
+            }
+            if (times.containsKey(key)) {
+              times[key]?.add(timeList[key]);
+            }
+          }
+        }
     );
   }
 
