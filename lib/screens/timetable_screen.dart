@@ -151,7 +151,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                               TimetableScreen.dest = RouteDropdown.selectedValue;
                               SelectionModal.from = "${LocationSearchBar.currentKey} -> ${TimetableScreen.dest}";
                             }
-                            if(LocationSearchBar.currentKey.isNotEmpty && RouteDropdown.selectedValue == ""){
+                            if(LocationSearchBar.currentKey.isNotEmpty && RouteDropdown.selectedValue == "" ||  RouteDropdown.selectedValue == "-- unselect destination --"){
                               TimetableScreen.isAvailable = true;
                               TimetableScreen.showRoutes = true;
                               noRoutes = false;

@@ -27,9 +27,7 @@ Future<void> getStops({
     final List<String> locations = [
       "Dennehy's Cross",
       "UCC Pouladuff Park & Ride",
-      "University College Cork",
       "Brookfield Student Accommodation",
-      "Black Ash Park & Ride"
     ];
     final List<BusStop> stationsList = [];
 

@@ -9,6 +9,8 @@ class TimetableAppBar extends StatelessWidget implements PreferredSizeWidget{
       backgroundColor: Colors.pink[100]!.withOpacity(0.6),
       elevation: 0,
       toolbarHeight: 85,
+
+      automaticallyImplyLeading: false,
       title: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

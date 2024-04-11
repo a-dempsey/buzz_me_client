@@ -71,7 +71,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AccountSettingsScreen(),
+                        builder: (context) => const AccountSettingsScreen(),
                       ),
                     );
                   },
@@ -105,7 +105,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   IconButton(
                     icon: const Icon(Icons.arrow_forward_ios_outlined, size: 14),
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => SettingsScreen(),

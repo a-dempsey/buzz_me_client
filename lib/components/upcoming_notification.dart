@@ -1,4 +1,9 @@
+import 'dart:async';
+
+import 'package:buzz_me/components/selection_modal.dart';
 import 'package:flutter/material.dart';
+import '../notifications/notifications.dart';
+import '../screens/nav_screen.dart';
 import 'cancellation_modal.dart';
 
 class UpcomingNotification extends StatefulWidget {
@@ -6,13 +11,76 @@ class UpcomingNotification extends StatefulWidget {
   static List<String> destination = [];
   static bool display = true;
   static int index = 0;
+  static bool remove = false;
+  static int hour = 0;
+  static int minute = 0;
 
   const UpcomingNotification({super.key});
   @override
-  State<UpcomingNotification> createState() => _UpcomingNotificationState();
+  State<UpcomingNotification> createState() => UpcomingNotificationState();
 }
+final GlobalKey<UpcomingNotificationState> upcomingNotificationStateKey = GlobalKey<UpcomingNotificationState>();
+class UpcomingNotificationState extends State<UpcomingNotification> {
+  final int _mins = 0;
+  bool showNotification = false;
+  bool delivered = false;
+  bool check = false;
+  Timer? _notificationTimer;
+  bool removed = false;
+  int len = 0;
+  int counter = 0;
+  bool isMounted = false;
+  List<DateTime> scheduledTime = [];
+  List<Duration> delay = [];
 
-class _UpcomingNotificationState extends State<UpcomingNotification> {
+
+  @override
+  void initState(){
+    super.initState();
+    if(UpcomingNotification.hour != 0){
+      getTime(UpcomingNotification.hour, UpcomingNotification.minute);
+    }
+  }
+
+  Future<void> getTime(int h, int m) async {
+    await UpcomingNotification.hour != 0;
+    setNotification(h, m);
+  }
+
+  Future<void> setNotification(int hour , int minute) async {
+    final now = DateTime.now();
+    scheduledTime.add(DateTime(now.year, now.month, now.day, hour, minute));
+    for(int i = 0; i < scheduledTime.length; i++){
+      delay.add(scheduledTime[i].difference(now));
+      //Timer(const Duration(seconds: 5), (){});
+      if(UpcomingNotification.time.isNotEmpty) {
+        _notificationTimer = Timer(delay[0], () async {
+          final localNotificationService = LocalNotificationService();
+          await localNotificationService.showLocalNotification(
+            'Buzz Me',
+            'Your bus is due to arrive in ${SelectionModal.mins} minutes',
+          );
+         // if (mounted) {
+            setState(() {
+              removed = true;
+              UpcomingNotification.time.removeAt(i);
+              delay.removeAt(0);
+              Navigator.pushReplacement(context, PageRouteBuilder(
+                pageBuilder: (context, animation1,
+                    animation2) => const NavScreen(),
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
+              ),);
+
+              _notificationTimer?.cancel();
+            });
+          //}
+        });
+      }
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +116,7 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
                 ],
               ),
               const SizedBox(height: 12),
-              if(UpcomingNotification.display == true && UpcomingNotification.time.isNotEmpty)
+              if(removed == false && UpcomingNotification.time.isNotEmpty)
                 for(int i = 0; i < UpcomingNotification.time.length; i ++)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
@@ -144,15 +212,15 @@ class _UpcomingNotificationState extends State<UpcomingNotification> {
                         ),
                       ],
                     ),
-                ),
-              if(UpcomingNotification.display == false | UpcomingNotification.time.isEmpty)
-                  Text(
-                    "You don't have any upcoming notifications at this time",
-                    style: TextStyle(
-                      color: Colors.green.shade500,
-                      fontFamily: 'Roboto-Medium',
-                      fontSize: 15.5,
-                    ),
+                  ),
+              if(UpcomingNotification.display == false || UpcomingNotification.time.isEmpty ||  removed == true)
+                Text(
+                  "You don't have any upcoming notifications at this time",
+                  style: TextStyle(
+                    color: Colors.green.shade500,
+                    fontFamily: 'Roboto-Medium',
+                    fontSize: 15.5,
+                  ),
                 ),
             ],
           ),

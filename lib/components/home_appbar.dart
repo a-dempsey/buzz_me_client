@@ -12,6 +12,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
         backgroundColor: Colors.pink[100]!.withOpacity(0.6),
         elevation: 0,
         toolbarHeight: 85,
+        centerTitle: false,
         leading: const Padding(padding: EdgeInsets.only(left: 10),
           child: Image(
               image: AssetImage('assets/images/bus_home.png'),
@@ -37,7 +38,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
             ),
 
             const Text(
-              "Western Road",
+              "Wilton",
               style: TextStyle(
                 color: Colors.black,
                 fontFamily: 'Roboto-Medium',
@@ -49,19 +50,19 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
         ),
 
         actions: [
-          IconButton(icon: const Icon(Icons.search, size: 28), onPressed: () {showDialog(
-            context: context,
-            builder: (context) {
-              return const Dialog(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    SearchScreen(),
-                  ],
-                ),
-              );
-            },
-          );},),
+          // IconButton(icon: const Icon(Icons.search, size: 28), onPressed: () {showDialog(
+          //   context: context,
+          //   builder: (context) {
+          //     return const Dialog(
+          //       child: Column(
+          //         mainAxisSize: MainAxisSize.min,
+          //         children: <Widget>[
+          //           SearchScreen(),
+          //         ],
+          //       ),
+          //     );
+          //   },
+          // );},),
           Padding(
             padding: const EdgeInsets.only(left: 12, right: 12, bottom: 2),
             child: IconButton(icon: const Icon(Icons.settings_outlined, size: 28),

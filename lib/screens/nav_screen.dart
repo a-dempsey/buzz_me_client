@@ -21,12 +21,17 @@ class NavScreen extends StatefulWidget {
 class _NavScreenState extends State<NavScreen> {
   String _currentLocation = "";
   late LatLng _current;
+  static int index = 1;
 
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
 
+  }
+
+  int getIndex(int i){
+    return index;
   }
 
   Future<void> _getCurrentLocation() async {
@@ -54,10 +59,6 @@ class _NavScreenState extends State<NavScreen> {
     return locationStr;
   }
 
-  @override
-  void dispose(){
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,5 @@
 import 'package:buzz_me/components/cancellation_toast.dart';
 import 'package:buzz_me/components/upcoming_notification.dart';
-import 'package:buzz_me/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/nav_screen.dart';
@@ -81,7 +80,6 @@ class _CancellationModalState extends State<CancellationModal> {
                         onPressed: () {
                           CancellationToast.showCancellationToast(context);
                           setState(() {
-                            //print(UpcomingNotification.time.indexOf());
                             UpcomingNotification.time.removeAt(UpcomingNotification.index);
                           });
                           Navigator.pop(context);

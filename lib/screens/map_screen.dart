@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:custom_info_window/custom_info_window.dart';
+import 'package:provider/provider.dart';
 
 import '../components/selection_modal.dart';
 import '../components/upcoming_notification.dart';
@@ -27,7 +28,7 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   final Completer<GoogleMapController> _controller = Completer();
   //ucc
-  static LatLng _location = const LatLng(51.893324, -8.492030);
+  static LatLng _location = const LatLng(51.889428, -8.501201);
   int counter = 0;
   final Set<Marker> _markers = {};
   Set<String> stopName = {};
@@ -108,6 +109,8 @@ class _MapScreenState extends State<MapScreen> {
                           ElevatedButton(
                             onPressed: () {
                               MapScreen.selected = stopName.elementAt(i);
+
+                              List<String> upcomingDest = UpcomingNotification.destination;
                               List<dynamic> vals = [];
                               if(routes.containsKey(MapScreen.selected)){
                                 routes.forEach((key, val){
@@ -130,7 +133,7 @@ class _MapScreenState extends State<MapScreen> {
 
                                   MapScreen.dest = vals[0][0].last;
                                   SelectionModal.time = time;
-                                  UpcomingNotification.destination.add("${MapScreen.selected} -> ${MapScreen.dest}");
+                                  upcomingDest.add("${MapScreen.selected} -> ${MapScreen.dest}");
                               }
                               showDialog(
                                 context: context,

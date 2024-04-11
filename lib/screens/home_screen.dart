@@ -4,6 +4,7 @@ import 'package:buzz_me/screens/nav_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../notifications/notifications.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, Widget? widgetToShow});
@@ -16,8 +17,13 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isPressed = false;
   bool isPressedRoute = false;
 
+  List<String> upcomingTime = UpcomingNotification.time;
+  List<String> upcomingDest = UpcomingNotification.destination;
+  // List<String> upcomingTime = Provider.of<UpcomingNotification>(context).time;
+  // List<String> upcomingDest = Provider.of<UpcomingNotification>(context).destination;
   @override
   void initState() {
+
     super.initState();
   }
 
@@ -103,7 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
             if(!isPressedRoute | (isPressedRoute && isPressed))
               const SizedBox(height: 20),
             if((!isPressedRoute) | (isPressedRoute && isPressed) )
-              (UpcomingNotification.display == true && UpcomingNotification.time.isNotEmpty) ?  SizedBox(height: UpcomingNotification.time.length > 1 ? (128.0 + (65 * (UpcomingNotification.time.length - 1))) : (128.0), child: const UpcomingNotification()) : const SizedBox(height: 95, child: UpcomingNotification()),
+
+              (UpcomingNotification.display == true && UpcomingNotification.time.isNotEmpty) ?  SizedBox(height: upcomingTime.length > 1 ? (128.0 + (65 * (upcomingTime.length - 1))) : (128.0), child: const UpcomingNotification()) : const SizedBox(height: 95, child: UpcomingNotification()),
             // (UpcomingNotification.display == true && UpcomingNotification.time.isNotEmpty) ? const SizedBox(height: 10) : const SizedBox(height: 10),
             const SizedBox(height: 10),
             if(!isPressed | (isPressedRoute && isPressed))

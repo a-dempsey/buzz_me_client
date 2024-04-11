@@ -53,10 +53,12 @@ dependencies:
   firebase_messaging: ^14.7.10
   firebase_auth: ^4.16.0
   firebase_ui_auth: ^1.13.0
-  flutter_local_notifications: 17.0.0
+  flutter_local_notifications: ^17.0.0
+  custom_info_window: 1.0.1
 
 
 dev_dependencies:
+  hotreloader: ^4.1.0
   flutter_test:
     sdk: flutter
 
