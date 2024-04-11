@@ -20,7 +20,7 @@ class _NearestRoutesState extends State<NearestRoutes> {
   @override
   void initState(){
     super.initState();
-    getRoutes(
+    getBusRoutes(
       onFailureCallback: () {
         print("ERR: didn'/t get stops");
       },

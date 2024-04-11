@@ -16,7 +16,7 @@ class BusRoute {
   });
 }
 
-Future<void> getRoutes({
+Future<void> getBusRoutes({
   required void Function() onFailureCallback,
   required void Function(List<BusRoute>) onSuccessCallback,
 

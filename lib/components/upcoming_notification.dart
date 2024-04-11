@@ -21,7 +21,6 @@ class UpcomingNotification extends StatefulWidget {
 }
 final GlobalKey<UpcomingNotificationState> upcomingNotificationStateKey = GlobalKey<UpcomingNotificationState>();
 class UpcomingNotificationState extends State<UpcomingNotification> {
-  final int _mins = 0;
   bool showNotification = false;
   bool delivered = false;
   bool check = false;
@@ -52,6 +51,11 @@ class UpcomingNotificationState extends State<UpcomingNotification> {
     scheduledTime.add(DateTime(now.year, now.month, now.day, hour, minute));
     for(int i = 0; i < scheduledTime.length; i++){
       delay.add(scheduledTime[i].difference(now));
+      print(delay);
+
+      if (delay[i].isNegative) {
+        delay[i] = -delay[i];
+      }
       //Timer(const Duration(seconds: 5), (){});
       if(UpcomingNotification.time.isNotEmpty) {
         _notificationTimer = Timer(delay[0], () async {
@@ -64,7 +68,7 @@ class UpcomingNotificationState extends State<UpcomingNotification> {
             setState(() {
               removed = true;
               UpcomingNotification.time.removeAt(i);
-              delay.removeAt(0);
+              //delay.removeAt(0);
               Navigator.pushReplacement(context, PageRouteBuilder(
                 pageBuilder: (context, animation1,
                     animation2) => const NavScreen(),

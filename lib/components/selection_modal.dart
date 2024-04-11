@@ -130,7 +130,7 @@ class _SelectionModalState extends State<SelectionModal> {
                         List<String> upcomingTime = UpcomingNotification.time;
                         List<String> upcomingDest = UpcomingNotification.destination;
                         DateTime routeTime = DateFormat('HH:mm').parse(SelectionModal.time);
-                        final time = routeTime.add(Duration(minutes: SelectionModal.mins));
+                        final time = routeTime.subtract(Duration(minutes: SelectionModal.mins));
                         if(time.minute >= 0 && time.minute < 10) {
                           upcomingTime.add(("${time.hour}:0${time.minute}"));
                         } else if(time.hour >= 0 && time.hour < 10) {
