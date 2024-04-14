@@ -204,19 +204,6 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
-    getStops(
-      onFailureCallback: () {
-        print("ERR: didn'/t get stops");
-      },
-      onSuccessCallback: (List<BusStop> stopsList) {
-        for (var stop in stopsList) {
-          lat.add(stop.latitude.toDouble());
-          lng.add(stop.longitude.toDouble());
-          counter += 1;
-          getMarkerIcon();
-          getStations();
-        }},
-    );
     getRoutes(
         onFailureCallback: () {
           print("ERR: didn'/t get routes");
@@ -241,6 +228,20 @@ class _MapScreenState extends State<MapScreen> {
           }
         }
     );
+    getStops(
+      onFailureCallback: () {
+        print("ERR: didn'/t get stops");
+      },
+      onSuccessCallback: (List<BusStop> stopsList) {
+        for (var stop in stopsList) {
+          lat.add(stop.latitude.toDouble());
+          lng.add(stop.longitude.toDouble());
+          counter += 1;
+          getMarkerIcon();
+          getStations();
+        }},
+    );
+
   }
 
   @override

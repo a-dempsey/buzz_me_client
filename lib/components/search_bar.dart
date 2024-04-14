@@ -74,6 +74,7 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
                       locationTextController.clear();
                       locationContainer?.remove();
                       locationContainer = null;
+                      LocationSearchBar.currentKey = "";
                     });
                   },
                 ),

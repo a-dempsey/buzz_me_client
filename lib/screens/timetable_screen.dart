@@ -4,7 +4,6 @@ import 'package:buzz_me/components/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../components/nearest_routes.dart';
 import '../components/selection_modal.dart';
 import '../routes/get_routes.dart';
 
@@ -13,6 +12,9 @@ class TimetableScreen extends StatefulWidget {
   static bool isAvailable = false;
   static bool showRoutes = false;
   static String dest = "";
+  static List<String> destinations = [];
+  static List<String> times = [];
+  static int len = 0;
 
   @override
   State<TimetableScreen> createState() => _TimetableScreenState();
@@ -23,11 +25,13 @@ class _TimetableScreenState extends State<TimetableScreen> {
   final Map<String, List<dynamic>> routes = {};
   final Map<String, List<dynamic>> times = {};
   String time = "";
+  List<String> test = [];
+  List<String> arrivalTimes = [];
+
 
   @override
   void initState(){
     super.initState();
-
     getRoutes(
       onFailureCallback: () {
         print("ERR: didn'/t get routes");
@@ -117,11 +121,49 @@ class _TimetableScreenState extends State<TimetableScreen> {
                       shape: RoundedRectangleBorder(side: BorderSide(width: 1, color: Colors.pink[100]!.withOpacity(0.7),),borderRadius: BorderRadius.circular(16)),
                       onPressed: () {
                         setState(() {
-                          List<dynamic> vals = [];
+                          List<String> vals = [];
+                          List<String> temp = [];
+                          List<String> paths = [];
                           if(routes.containsKey(LocationSearchBar.currentKey)){
                             routes.forEach((key, val){
+                                 for(var item in val){
+                                    for(var subitem in item){
+                                      if(subitem is List){
+                                        if(key == LocationSearchBar.currentKey) {
+                                          paths = [subitem.last];
+                                          temp.add(subitem.last);
+                                          TimetableScreen.destinations = temp;
+                                          TimetableScreen.len = 2;
+                                        }} else {
+                                        if(key == LocationSearchBar.currentKey){
+                                          paths = val.last.cast<String>();
+                                          vals = [val.last.last];
+                                          TimetableScreen.destinations = vals;
+                                          TimetableScreen.len = vals.length;}
+                                      }}
                             if(key == LocationSearchBar.currentKey){
-                              int t = times[LocationSearchBar.currentKey]![0][0];
+                              for(int i = 0; i <= 1; i++){
+                                for(var item in times[LocationSearchBar.currentKey]!){
+                                  if(key == LocationSearchBar.currentKey)
+                                    {if(item is List){
+                                      for(var subitem in item){
+                                        print(subitem);
+                                        item = subitem;
+                                    }
+                                  } else {
+                                      item = item;
+                                    }}
+                                List<int> pre = [];
+                                if(item is List){
+                                  for(i = 0; i < item.length; i ++){
+                                     pre += [item[i]];
+                                  }
+                                }else{ pre = [item];}
+
+                                for(int i = 0; i < pre.length; i ++){
+                                  int t = pre[i];
+                                  if(key == LocationSearchBar.currentKey){
+
                               final hours = t ~/ 3600;
                               final r = t % 3600;
                               final mins = r ~/ 60;
@@ -133,31 +175,33 @@ class _TimetableScreenState extends State<TimetableScreen> {
                                 time = "0$hours:0$mins";
                               }
                               SelectionModal.time = time;
-                              vals.add(val);
-
-                              print("LOOK HERE");
-                              print(vals[0].length);
+                              TimetableScreen.times.add(time);
+                              if(i == 1){
+                                arrivalTimes += [time];
+                              }else{
+                              arrivalTimes = [time];}}
                             }
-                            });
-                            if(!vals[0][0].contains(RouteDropdown.selectedValue)){
+                            if(!paths.contains(RouteDropdown.selectedValue)){
                               noRoutes = true;
                               TimetableScreen.isAvailable = false;
                               TimetableScreen.showRoutes = false;
                             }
-                            if(LocationSearchBar.currentKey.isNotEmpty && RouteDropdown.selectedValue != "" && vals[0][0].contains(RouteDropdown.selectedValue)){
+                            if(LocationSearchBar.currentKey.isNotEmpty && RouteDropdown.selectedValue != "" && paths.contains(RouteDropdown.selectedValue)){
                               TimetableScreen.isAvailable = true;
                               TimetableScreen.showRoutes = true;
                               noRoutes = false;
                               TimetableScreen.dest = RouteDropdown.selectedValue;
-                              SelectionModal.from = "${LocationSearchBar.currentKey} -> ${TimetableScreen.dest}";
+                              SelectionModal.from = "${LocationSearchBar.currentKey} -> ${RouteDropdown.selectedValue}";
+                              test = [RouteDropdown.selectedValue];
+                              TimetableScreen.len = 1;
                             }
                             if(LocationSearchBar.currentKey.isNotEmpty && RouteDropdown.selectedValue == "" ||  RouteDropdown.selectedValue == "-- unselect destination --"){
                               TimetableScreen.isAvailable = true;
                               TimetableScreen.showRoutes = true;
                               noRoutes = false;
-                              TimetableScreen.dest = vals[0][0].last;
-                              SelectionModal.from = "${LocationSearchBar.currentKey} -> ${TimetableScreen.dest}";
-                            }
+                              test = TimetableScreen.destinations;
+                              SelectionModal.from = "${LocationSearchBar.currentKey} -> ${TimetableScreen.destinations}";
+                            }}}}}});
                           } else {
                             noRoutes = true;
                           }
@@ -218,7 +262,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            AvailableRoutes(to: TimetableScreen.dest, time: time),
+                            AvailableRoutes(to: test, time: arrivalTimes),
                           ],
                         ),
                     ),

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'components/selection_modal.dart';
 import 'firebase_options.dart';
 import '../authentication/authentication.dart';
+import '../routes/get_routes.dart';
 
 
 void main() async {
@@ -17,13 +18,22 @@ void main() async {
     name: 'buzz-me-client',
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await getRoutes(
+  await getBusRoutes(
     onFailureCallback: () {
       print("GET ROUTES FAILURE");
     },
     onSuccessCallback: (List<BusRoute> stopsList) {
       print("GET ROUTES SUCCESS");
       },
+  );
+  await getRoutes(
+      onFailureCallback: () {
+        print("ERR: didn'/t get routes");
+      },
+      onSuccessCallback: (Map<String, List<dynamic>> routesList, timeList) {
+
+        print("GET ROUTES SUCCESS");
+      }
   );
   await getBusStops(
     onFailureCallback: () {
