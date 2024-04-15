@@ -50,7 +50,8 @@ class DisplayMapRoutes extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 133,
-                          child: Text(
+                          child: Column(
+    crossAxisAlignment: CrossAxisAlignment.center, children: [Padding(padding: const EdgeInsets.only(top: 15), child: Text(
                             to[i],
                             overflow: TextOverflow.fade,
                             style: TextStyle(
@@ -59,7 +60,8 @@ class DisplayMapRoutes extends StatelessWidget {
                               fontSize: 15.4,
                               fontWeight: FontWeight.w400,
                             ),
-                          ),
+                          ),),],
+                        ),
                         ),
                         const Spacer(),
                         ElevatedButton(

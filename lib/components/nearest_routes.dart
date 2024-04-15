@@ -31,7 +31,6 @@ class _NearestRoutesState extends State<NearestRoutes> {
           NearestRoutes.from = route.from;
         }},
     );
-
   }
 
   @override
