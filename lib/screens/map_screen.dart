@@ -21,6 +21,9 @@ class MapScreen extends StatefulWidget {
   static List<String> dest = [];
   static List<String> time = [];
   static int len = 0;
+  static Map<String, List<dynamic>> routes = {};
+  static Map<String, List<dynamic>> times = {};
+  static Set<String> stopName = {};
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -32,12 +35,11 @@ class _MapScreenState extends State<MapScreen> {
   static LatLng _location = const LatLng(51.889428, -8.501201);
   int counter = 0;
   final Set<Marker> _markers = {};
-  Set<String> stopName = {};
+
   Set<double> lat = {};
   Set<double> lng = {};
   final CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
-  final Map<String, List<dynamic>> routes = {};
-  final Map<String, List<dynamic>> times = {};
+
   String time = "";
   List<String> arrivalTimes = [];
   List<String> places = [];
@@ -68,7 +70,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void getStations() async {
-    for (int i = 0; i < stopName.length; i++) {
+    for (int i = 0; i < MapScreen.stopName.length; i++) {
       final Uint8List? markerIcon = await getMarkerIcon();
       _markers.add(
         Marker(
@@ -100,7 +102,7 @@ class _MapScreenState extends State<MapScreen> {
                           Padding(
                             padding: const EdgeInsets.only(top: 4),
                             child: Text(
-                              stopName.elementAt(i),
+                              MapScreen.stopName.elementAt(i),
                               style: TextStyle(
                                 color: Colors.grey[800],
                                 fontFamily: 'Roboto-Medium',
@@ -111,7 +113,7 @@ class _MapScreenState extends State<MapScreen> {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              MapScreen.selected = stopName.elementAt(i);
+                              MapScreen.selected = MapScreen.stopName.elementAt(i);
 
                               // List<String> upcomingDest = UpcomingNotification.destination;
                               List<String> upcomingDest = UpcomingNotification.destination;
@@ -122,8 +124,8 @@ class _MapScreenState extends State<MapScreen> {
     List<String> temp = [];
     List<String> paths = [];
 
-    if(routes.containsKey(MapScreen.selected)){
-    routes.forEach((key, val){
+    if(MapScreen.routes.containsKey(MapScreen.selected)){
+      MapScreen.routes.forEach((key, val){
     for(var item in val){
     for(var subitem in item){
     if(subitem is List){
@@ -142,7 +144,7 @@ class _MapScreenState extends State<MapScreen> {
                                   if(key == MapScreen.selected){
   // if(key == LocationSearchBar.currentKey){
     for(int i = 0; i <= 1; i++){
-            for(var item in times[MapScreen.selected]!){
+            for(var item in MapScreen.times[MapScreen.selected]!){
             if(key == MapScreen.selected)
             {if(item is List){
             for(var subitem in item){
@@ -292,20 +294,20 @@ class _MapScreenState extends State<MapScreen> {
         },
         onSuccessCallback: (Map<String, List<dynamic>> routesList, timeList) {
           for (var key in routesList.keys) {
-            if(!routes.containsKey(key)) {
-              routes[key] = [];
-              stopName.add(key);
+            if(!MapScreen.routes.containsKey(key)) {
+              MapScreen.routes[key] = [];
+              MapScreen.stopName.add(key);
             }
-            if (routes.containsKey(key)) {
-              routes[key]?.add(routesList[key]);
+            if (MapScreen.routes.containsKey(key)) {
+              MapScreen.routes[key]?.add(routesList[key]);
             }
           }
           for (var key in timeList.keys) {
-            if(!times.containsKey(key)) {
-              times[key] = [];
+            if(!MapScreen.times.containsKey(key)) {
+              MapScreen.times[key] = [];
             }
-            if (times.containsKey(key)) {
-              times[key]?.add(timeList[key]);
+            if (MapScreen.times.containsKey(key)) {
+              MapScreen.times[key]?.add(timeList[key]);
             }
           }
         }
