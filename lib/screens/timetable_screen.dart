@@ -25,8 +25,8 @@ class _TimetableScreenState extends State<TimetableScreen> {
   final Map<String, List<dynamic>> routes = {};
   final Map<String, List<dynamic>> times = {};
   String time = "";
-  List<String> test = [];
-  List<String> arrivalTimes = [];
+  static List<String> test = [];
+  static List<String> arrivalTimes = [];
 
 
   @override
@@ -200,8 +200,11 @@ class _TimetableScreenState extends State<TimetableScreen> {
                               TimetableScreen.showRoutes = true;
                               noRoutes = false;
                               test = TimetableScreen.destinations;
-                              SelectionModal.from = "${LocationSearchBar.currentKey} -> ${TimetableScreen.destinations}";
+                              SelectionModal.from = "${LocationSearchBar.currentKey} -> ${TimetableScreen.destinations[0]}";
                             }}}}}});
+                            print(test);
+                            print(arrivalTimes);
+                            print("ERR CHECKING");
                           } else {
                             noRoutes = true;
                           }
