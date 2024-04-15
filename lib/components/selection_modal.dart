@@ -141,8 +141,18 @@ class _SelectionModalState extends State<SelectionModal> {
                         else {
                           upcomingTime.add(("${time.hour}:${time.minute}"));
                         }
-                        upcomingTime.sort();
+
                         upcomingDest.add(SelectionModal.from);
+                        List<List<String>> join = [];
+                        List<String> organise = [];
+                        for (int i = 0; i < upcomingTime.length; i++) {
+                          join.add([upcomingTime[i], upcomingDest[i]]);
+                        }
+                        join.sort((upcomingTime, upcomingDest) => upcomingTime[0].compareTo(upcomingDest[0]));
+                        organise = join.map((j) => j[1]).toList();
+                        upcomingDest = organise;
+                        UpcomingNotification.destination = (organise);
+                        upcomingTime.sort();
                         UpcomingNotification.index = UpcomingNotification.time.indexOf("${time.hour}:${time.minute}");
                         setTime(time.hour, time.minute);
                       });

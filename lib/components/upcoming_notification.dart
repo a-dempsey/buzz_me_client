@@ -41,6 +41,11 @@ class UpcomingNotificationState extends State<UpcomingNotification> {
     }
   }
 
+  @override
+  void dispose(){
+    super.dispose();
+  }
+
   Future<void> getTime(int h, int m) async {
     await UpcomingNotification.hour != 0;
     setNotification(h, m);

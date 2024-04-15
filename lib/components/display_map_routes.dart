@@ -64,6 +64,8 @@ class DisplayMapRoutes extends StatelessWidget {
                         const Spacer(),
                         ElevatedButton(
                           onPressed: () {
+                            SelectionModal.from = "${MapScreen.selected} -> ${MapScreen.dest[0]}";
+                           // SelectionModal.time = NearestRoutes.time;
                             showDialog(
                               context: context,
                               builder: (context) {

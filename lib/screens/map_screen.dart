@@ -40,6 +40,7 @@ class _MapScreenState extends State<MapScreen> {
   final Map<String, List<dynamic>> times = {};
   String time = "";
   List<String> arrivalTimes = [];
+  List<String> places = [];
 
 
   @override
@@ -67,7 +68,6 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void getStations() async {
-    print(stopName);
     for (int i = 0; i < stopName.length; i++) {
       final Uint8List? markerIcon = await getMarkerIcon();
       _markers.add(
@@ -121,6 +121,7 @@ class _MapScreenState extends State<MapScreen> {
     List<String> vals = [];
     List<String> temp = [];
     List<String> paths = [];
+
     if(routes.containsKey(MapScreen.selected)){
     routes.forEach((key, val){
     for(var item in val){
@@ -129,13 +130,13 @@ class _MapScreenState extends State<MapScreen> {
     if(key == MapScreen.selected) {
     paths = [subitem.last];
     temp.add(subitem.last);
-   MapScreen.dest = temp;
+    places = temp;
     MapScreen.len = 2;
     }} else {
     if(key == MapScreen.selected){
     paths = val.last.cast<String>();
     vals = [val.last.last];
-        MapScreen.dest = vals;
+    places = vals;
     MapScreen.len = vals.length;}
     }}
                                   if(key == MapScreen.selected){
@@ -145,7 +146,6 @@ class _MapScreenState extends State<MapScreen> {
             if(key == MapScreen.selected)
             {if(item is List){
             for(var subitem in item){
-            print(subitem);
             item = subitem;
             }
             } else {
@@ -194,9 +194,14 @@ class _MapScreenState extends State<MapScreen> {
 
             //MapScreen.time = time;
             MapScreen.time = arrivalTimes;
+            MapScreen.dest = places;
+            print("HERE");
+            print(MapScreen.time);
+            print(MapScreen.dest);
           //  vals = val.last;
            // vals.add(val[0].last);
-            print(vals);
+
+
             }
             }}}});
                                // print(vals[0][0][0][0].last);
@@ -205,11 +210,12 @@ class _MapScreenState extends State<MapScreen> {
                                   SelectionModal.time = time;
                                   String x = MapScreen.selected;
                                   String y = MapScreen.dest[0];
-                                  print("${MapScreen.selected} -> ${MapScreen.dest}");
-                                  upcomingDest = ["hihihihih"];
+
                                   upcomingDest = ["${x} -> ${y}"];
+                                 // UpcomingNotification.time.add(time);
                                  // UpcomingNotification.destination.add("${MapScreen.selected} -> ${MapScreen.dest}");
-                                    SelectionModal.from = "${MapScreen.selected} -> ${MapScreen.dest[0]}";
+
+                                    SelectionModal.from = "${MapScreen.selected} -> ${MapScreen.dest}";
                               }
                               showDialog(
                                 context: context,
