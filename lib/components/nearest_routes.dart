@@ -83,7 +83,7 @@ class _NearestRoutesState extends State<NearestRoutes> {
                       ElevatedButton(
                         onPressed: () {
                           SelectionModal.from = "${NearestRoutes.from} -> ${NearestRoutes.to}";
-                         SelectionModal.time = NearestRoutes.time;
+                          SelectionModal.time = NearestRoutes.time;
                             showDialog(
                               context: context,
                               builder: (context) {

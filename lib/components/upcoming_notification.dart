@@ -19,7 +19,7 @@ class UpcomingNotification extends StatefulWidget {
   @override
   State<UpcomingNotification> createState() => UpcomingNotificationState();
 }
-final GlobalKey<UpcomingNotificationState> upcomingNotificationStateKey = GlobalKey<UpcomingNotificationState>();
+// final GlobalKey<UpcomingNotificationState> upcomingNotificationStateKey = GlobalKey<UpcomingNotificationState>();
 class UpcomingNotificationState extends State<UpcomingNotification> {
   bool showNotification = false;
   bool delivered = false;

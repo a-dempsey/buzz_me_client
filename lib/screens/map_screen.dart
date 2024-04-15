@@ -18,8 +18,9 @@ import '../stops/bus_stops.dart';
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
   static String selected = "";
-  static String dest = "";
-  static String time = "";
+  static List<String> dest = [];
+  static List<String> time = [];
+  static int len = 0;
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -38,6 +39,7 @@ class _MapScreenState extends State<MapScreen> {
   final Map<String, List<dynamic>> routes = {};
   final Map<String, List<dynamic>> times = {};
   String time = "";
+  List<String> arrivalTimes = [];
 
 
   @override
@@ -65,6 +67,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void getStations() async {
+    print(stopName);
     for (int i = 0; i < stopName.length; i++) {
       final Uint8List? markerIcon = await getMarkerIcon();
       _markers.add(
@@ -110,30 +113,103 @@ class _MapScreenState extends State<MapScreen> {
                             onPressed: () {
                               MapScreen.selected = stopName.elementAt(i);
 
+                              // List<String> upcomingDest = UpcomingNotification.destination;
                               List<String> upcomingDest = UpcomingNotification.destination;
-                              List<dynamic> vals = [];
-                              if(routes.containsKey(MapScreen.selected)){
-                                routes.forEach((key, val){
+                              // List<dynamic> vals = [];
+                              // if(routes.containsKey(MapScreen.selected)){
+                              //   routes.forEach((key, val){
+    List<String> vals = [];
+    List<String> temp = [];
+    List<String> paths = [];
+    if(routes.containsKey(MapScreen.selected)){
+    routes.forEach((key, val){
+    for(var item in val){
+    for(var subitem in item){
+    if(subitem is List){
+    if(key == MapScreen.selected) {
+    paths = [subitem.last];
+    temp.add(subitem.last);
+   MapScreen.dest = temp;
+    MapScreen.len = 2;
+    }} else {
+    if(key == MapScreen.selected){
+    paths = val.last.cast<String>();
+    vals = [val.last.last];
+        MapScreen.dest = vals;
+    MapScreen.len = vals.length;}
+    }}
                                   if(key == MapScreen.selected){
-                                    int t = times[stopName.elementAt(i)]![0][0];
-                                    final hours = t ~/ 3600;
-                                    final r = t % 3600;
-                                    final mins = r ~/ 60;
-                                    if(mins >= 0 && mins< 10) {
-                                      time = "$hours:0$mins";
-                                    } else if(hours >= 0 && hours < 10) {
-                                      time = "0$hours:$mins";
-                                    } else if((hours >= 0 && mins >= 0) && (hours < 10 && mins < 10)) {
-                                      time = "0$hours:0$mins";
-                                    }
-                                    MapScreen.time = time;
-                                    vals.add(val);
-                                  }
-                                });
+  // if(key == LocationSearchBar.currentKey){
+    for(int i = 0; i <= 1; i++){
+            for(var item in times[MapScreen.selected]!){
+            if(key == MapScreen.selected)
+            {if(item is List){
+            for(var subitem in item){
+            print(subitem);
+            item = subitem;
+            }
+            } else {
+            item = item;
+            }}
+            List<int> pre = [];
+            if(item is List){
+            for(i = 0; i < item.length; i ++){
+            pre += [item[i]];
+            }
+            }else{ pre = [item];}
 
-                                  MapScreen.dest = vals[0][0].last;
+            for(int i = 0; i < pre.length; i ++){
+            int t = pre[i];
+            if(key == MapScreen.selected){
+
+            final hours = t ~/ 3600;
+            final r = t % 3600;
+            final mins = r ~/ 60;
+            if(mins >= 0 && mins< 10) {
+            time = "$hours:0$mins";
+            } else if(hours >= 0 && hours < 10) {
+            time = "0$hours:$mins";
+            } else if((hours >= 0 && mins >= 0) && (hours < 10 && mins < 10)) {
+            time = "0$hours:0$mins";
+            }
+            SelectionModal.time = time;
+            //TimetableScreen.times.add(time);
+            if(i == 1){
+            arrivalTimes += [time];
+            }else{
+            arrivalTimes = [time];}}
+            }
+
+            // int t = times[stopName.elementAt(i)]![0][0];
+            // final hours = t ~/ 3600;
+            // final r = t % 3600;
+            // final mins = r ~/ 60;
+            // if(mins >= 0 && mins< 10) {
+            //   time = "$hours:0$mins";
+            // } else if(hours >= 0 && hours < 10) {
+            //   time = "0$hours:$mins";
+            // } else if((hours >= 0 && mins >= 0) && (hours < 10 && mins < 10)) {
+            //   time = "0$hours:0$mins";
+            // }
+
+            //MapScreen.time = time;
+            MapScreen.time = arrivalTimes;
+          //  vals = val.last;
+           // vals.add(val[0].last);
+            print(vals);
+            }
+            }}}});
+                               // print(vals[0][0][0][0].last);
+
+                                //  MapScreen.dest = vals[0][0].last;
                                   SelectionModal.time = time;
-                                  upcomingDest.add("${MapScreen.selected} -> ${MapScreen.dest}");
+                                  String x = MapScreen.selected;
+                                  String y = MapScreen.dest[0];
+                                  print("${MapScreen.selected} -> ${MapScreen.dest}");
+                                  upcomingDest = ["hihihihih"];
+                                  upcomingDest = ["${x} -> ${y}"];
+                                 // UpcomingNotification.destination.add("${MapScreen.selected} -> ${MapScreen.dest}");
+                                    SelectionModal.from = "${MapScreen.selected} -> ${MapScreen.dest[0]}";
                               }
                               showDialog(
                                 context: context,
