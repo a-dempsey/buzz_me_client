@@ -50,7 +50,6 @@ Future<void> getRoutes({
               }
               for(int i = 0; i < parsed[k]['route_timeslots'][0]['to'].length; i++) {
                 if (k == 1){
-                  // change from k = 1 to a check on if the 0/1 var length is > 0 // need a new var in loop
                   routesList[parsed[k]['name']]!.add([parsed[k]['route_timeslots'][0]['to'][i]['name'], parsed[k]['route_timeslots'][1]['to'][i]['name']]);
                 }else {
                   routesList[parsed[k]['name']]!.add(parsed[k]['route_timeslots'][0]['to'][i]['name']);

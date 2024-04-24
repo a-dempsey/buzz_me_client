@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import '../notifications/notifications.dart';
 import 'package:provider/provider.dart';
 
+import '../theme/theme.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, Widget? widgetToShow});
 

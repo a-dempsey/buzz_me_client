@@ -78,7 +78,8 @@ class _MapScreenState extends State<MapScreen> {
           position: LatLng(lat.elementAt(i), lng.elementAt(i)),
           icon: BitmapDescriptor.fromBytes(markerIcon!),
           onTap: (){
-            _customInfoWindowController.addInfoWindow!(Column(
+            _customInfoWindowController.addInfoWindow!(
+                Column(
               children: [
                 Expanded(
                   child: Container(
@@ -281,7 +282,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Future<Uint8List?> getMarkerIcon()  {
-    final markerIcon = getBytesFromAsset('assets/images/images.png', 170);
+    final markerIcon = getBytesFromAsset('assets/images/x.png', 120);
     return markerIcon;
     }
 
@@ -355,7 +356,7 @@ class _MapScreenState extends State<MapScreen> {
             controller: _customInfoWindowController,
             height: 75,
             width: 150,
-            offset: 50,
+            offset: 120,
           ),
         ],
       ),

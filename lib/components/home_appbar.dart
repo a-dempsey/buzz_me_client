@@ -1,11 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:geocode/geocode.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../screens/search_screen.dart';
 import '../screens/settings_screen.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
   const HomeAppBar({super.key});
-
+  // GET USER LOCATION -- REENABLE
+  // String _currentLocation = "";
+  // late LatLng _current;
+  // static int index = 1;
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _getCurrentLocation();
+  //
+  // }
+  //
+  // int getIndex(int i){
+  //   return index;
+  // }
+  //
+  // Future<void> _getCurrentLocation() async {
+  //   try {
+  //     String addr = await getCoords();
+  //     setState(() {
+  //       _currentLocation = addr;
+  //     });
+  //   } catch (err) {
+  //     if (kDebugMode) {
+  //       print(err);
+  //     }
+  //   }
+  // }
+  //
+  // Future<String> getCoords() async{
+  //   final position = await Geolocator.getCurrentPosition(
+  //     desiredAccuracy: LocationAccuracy.high,
+  //   );
+  //   final currentLocation = await GeoCode().reverseGeocoding(
+  //       latitude: position.latitude,
+  //       longitude: position.longitude);
+  //
+  //   final locationStr = currentLocation.streetAddress.toString();
+  //   return locationStr;
+  // }
   @override
   Widget build(BuildContext context) {
     return AppBar(
